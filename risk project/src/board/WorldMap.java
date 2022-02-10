@@ -1,5 +1,5 @@
 package board;
 
 public class WorldMap {
-
+	short
 }
