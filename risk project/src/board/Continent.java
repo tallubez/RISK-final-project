@@ -1,18 +1,21 @@
 package board;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Continent {
 	private String name;
-	private ArrayList<Territory> territorysList;
+	private HashMap<String, Territory> territorysList;
 	private int size;
 	private int player_controling;
+	public WorldMap worldMap;
 
-	public Continent(String name) {
+	public Continent(String name, WorldMap worldMap) {
+		this.worldMap = worldMap;
 		this.name = name;
-		territorysList = new ArrayList<Territory>();
+		territorysList = new HashMap<>();
 		size = 0;
 		player_controling = -1;
+		worldMap.AddContinent(this);
 
 	}
 
@@ -24,12 +27,12 @@ public class Continent {
 		this.name = name;
 	}
 
-	public ArrayList<Territory> getTerritorysList() {
+	public HashMap<String, Territory> getTerritorysList() {
 		return territorysList;
 	}
 
 	public void AddToTerritorysList(Territory t) {
-		territorysList.add(t);
+		territorysList.put(t.getName(), t);
 		size++;
 	}
 
@@ -47,6 +50,10 @@ public class Continent {
 
 	public void setPlayer_controling(int player_controling) {
 		this.player_controling = player_controling;
+	}
+
+	public Territory geTerritory(String name) {
+		return territorysList.get(name);
 	}
 
 }
