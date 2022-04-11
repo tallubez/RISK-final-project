@@ -24,8 +24,8 @@ public class InitiateWorldMap {
 		southAmerica = new Continent("South America", worldMap);
 		Africa = new Continent("Africa", worldMap);
 		Asia = new Continent("Asia", worldMap);
-		Europe = new Continent("North America", worldMap);
-		Australia = new Continent("North America", worldMap);
+		Europe = new Continent("Europe", worldMap);
+		Australia = new Continent("Australia", worldMap);
 	}
 
 	public void InitiateTerritorys() {
@@ -41,15 +41,16 @@ public class InitiateWorldMap {
 		setBorder(brasil, venezuela);
 		setBorder(peru, venezuela);
 		// North America
-		Territory mexico = new Territory("Mexico", northAmerica, 3, 0, worldMap);
-		Territory westUSA = new Territory("WestUSA", northAmerica, 9, 0, worldMap);
-		Territory eastUSA = new Territory("EastUSA", northAmerica, 4, 0, worldMap);
-		Territory alaska = new Territory("Alaska", northAmerica, 1, 0, worldMap);
-		Territory alberta = new Territory("Alberta", northAmerica, 2, 0, worldMap);
-		Territory northCanada = new Territory("NorthCanada", northAmerica, 6, 0, worldMap);
-		Territory eastCanada = new Territory("EastCanada", northAmerica, 8, 0, worldMap);
-		Territory onterio = new Territory("Onterio", northAmerica, 7, 0, worldMap);
-		Territory greenland = new Territory("Greenland", northAmerica, 5, 0, worldMap);
+
+		Territory mexico = new Territory("Mexico", northAmerica, 3, -126, worldMap);
+		Territory westUSA = new Territory("WestUSA", northAmerica, 9, -4078976, worldMap);
+		Territory eastUSA = new Territory("EastUSA", northAmerica, 4, -8421376, worldMap);
+		Territory alaska = new Territory("Alaska", northAmerica, 1, -5130750, worldMap);
+		Territory alberta = new Territory("Alberta", northAmerica, 2, -7170745, worldMap);
+		Territory northCanada = new Territory("NorthCanada", northAmerica, 6, -11579352, worldMap);
+		Territory eastCanada = new Territory("EastCanada", northAmerica, 8, -77, worldMap);
+		Territory onterio = new Territory("Onterio", northAmerica, 7, -256, worldMap);
+		Territory greenland = new Territory("Greenland", northAmerica, 5, -74240, worldMap);
 		// North America borders
 		setBorder(mexico, venezuela);
 		setBorder(mexico, westUSA);
@@ -69,37 +70,37 @@ public class InitiateWorldMap {
 		setBorder(greenland, eastCanada);
 		setBorder(greenland, onterio);
 		// Europe
-		Territory iceland = new Territory("Iceland", Europe, 2, 0, worldMap);
-		Territory britain = new Territory("Britain", Europe, 1, 0, worldMap);
-		Territory norway = new Territory("Norway", Europe, 4, 0, worldMap);
-		Territory westEurope = new Territory("WestEurope", Europe, 7, 0, worldMap);
-		Territory germany = new Territory("Germany", Europe, 3, 0, worldMap);
-		Territory southEurope = new Territory("SouthEurope", Europe, 6, 0, worldMap);
-		Territory eastEurope = new Territory("EastEurope", Europe, 6, 0, worldMap);
+		Territory iceland = new Territory("Iceland", Europe, 2, -3620889, worldMap);
+		Territory britain = new Territory("Britain", Europe, 1, -5188649, worldMap);
+		Territory norway = new Territory("Norway", Europe, 4, -5384193, worldMap);
+		Territory westEurope = new Territory("WestEurope", Europe, 7, -16482561, worldMap);
+		Territory germany = new Territory("Germany", Europe, 3, -16776962, worldMap);
+		Territory southEurope = new Territory("SouthEurope", Europe, 6, -7760385, worldMap);
+		Territory eastEurope = new Territory("EastEurope", Europe, 6, -16772991, worldMap);
 		// Africa
-		Territory northAfrica = new Territory("NorthAfrica", Africa, 3, 0, worldMap);
-		Territory westAfrica = new Territory("WestAfrica", Africa, 5, 0, worldMap);
-		Territory eastAfrica = new Territory("EastAfrica", Africa, 2, 0, worldMap);
-		Territory southAfrica = new Territory("SouthAfrica", Africa, 6, 0, worldMap);
-		Territory centralAfrica = new Territory("CentalAfrica", Africa, 1, 0, worldMap);
-		Territory madagascar = new Territory("Madagascar", Africa, 4, 0, worldMap);
+		Territory northAfrica = new Territory("NorthAfrica", Africa, 3, -11195392, worldMap);
+		Territory westAfrica = new Territory("WestAfrica", Africa, 5, -28070, worldMap);
+		Territory eastAfrica = new Territory("EastAfrica", Africa, 2, -33024, worldMap);
+		Territory southAfrica = new Territory("SouthAfrica", Africa, 6, -8372224, worldMap);
+		Territory centralAfrica = new Territory("CentalAfrica", Africa, 1, -5221116, worldMap);
+		Territory madagascar = new Territory("Madagascar", Africa, 4, -16269, worldMap);
 		// Asia
-		Territory middleEast = new Territory("MiddleEast", Asia, 7, 0, worldMap);
-		Territory india = new Territory("India", Asia, 3, 0, worldMap);
-		Territory viatnam = new Territory("Viatnam", Asia, 9, 0, worldMap);
-		Territory southChina = new Territory("SouthChina", Asia, 2, 0, worldMap);
-		Territory northChina = new Territory("NorthChina", Asia, 8, 0, worldMap);
-		Territory afaganistan = new Territory("Afganistan", Asia, 1, 0, worldMap);
-		Territory Oral = new Territory("Oral", Asia, 11, 0, worldMap);
-		Territory yakutsk = new Territory("Yakutsk", Asia, 12, 0, worldMap);
-		Territory EastRussia = new Territory("EastRussia", Asia, 6, 0, worldMap);
-		Territory japan = new Territory("Japan", Asia, 5, 0, worldMap);
-		Territory siberia = new Territory("Siberia", Asia, 10, 0, worldMap);
+		Territory middleEast = new Territory("MiddleEast", Asia, 7, -16619008, worldMap);
+		Territory india = new Territory("India", Asia, 3, -16744319, worldMap);
+		Territory viatnam = new Territory("Viatnam", Asia, 9, -8388739, worldMap);
+		Territory southChina = new Territory("SouthChina", Asia, 2, -13535970, worldMap);
+		Territory northChina = new Territory("NorthChina", Asia, 8, -16761856, worldMap);
+		Territory afaganistan = new Territory("Afganistan", Asia, 1, -4390982, worldMap);
+		Territory Oral = new Territory("Oral", Asia, 11, -16755967, worldMap);
+		Territory yakutsk = new Territory("Yakutsk", Asia, 12, -16724322, worldMap);
+		Territory EastRussia = new Territory("EastRussia", Asia, 6, -16744384, worldMap);
+		Territory japan = new Territory("Japan", Asia, 5, -8126969, worldMap);
+		Territory siberia = new Territory("Siberia", Asia, 10, -16737024, worldMap);
 		// Australia
-		Territory indonesia = new Territory("Indonesia", Australia, 2, 0, worldMap);
-		Territory newGuinea = new Territory("NewGuinea", Australia, 3, 0, worldMap);
-		Territory WestAustralia = new Territory("WestAustralia", Australia, 4, 0, worldMap);
-		Territory EastAustralia = new Territory("EastAustralia", Australia, 1, 0, worldMap);
+		Territory indonesia = new Territory("Indonesia", Australia, 2, -8453889, worldMap);
+		Territory newGuinea = new Territory("NewGuinea", Australia, 3, -130561, worldMap);
+		Territory WestAustralia = new Territory("WestAustralia", Australia, 4, -8323008, worldMap);
+		Territory EastAustralia = new Territory("EastAustralia", Australia, 1, -12582849, worldMap);
 
 	}
 

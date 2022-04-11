@@ -1,23 +1,28 @@
 package SetUpGame;
 
-import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Robot;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-import Utils.GenerateFrameService;
+import board.Territory;
 import board.WorldMap;
+import main.Player;
 import main.UI;
 
-public class SelectCountries extends JFrame {
+public class SelectCountries implements ActionListener {
 
 	public JFrame gameWindow;
 	public JPanel panel;
@@ -25,75 +30,149 @@ public class SelectCountries extends JFrame {
 	public JLabel lowerLabel;
 	private UI ui;
 	private WorldMap worldMap;
-	private Robot robot;
+	public JList<String> leftList;
+	public JScrollPane leftSP;
+	public JList<String> rightList;
+	public JScrollPane rightSP;
+	CreateMapBackround cMapBackround;
 	private int x, y;
+	private int currentPlayerNum;
 
 	public SelectCountries(UI ui) {
 		this.ui = ui;
 		this.gameWindow = ui.gameWindow;
 		this.worldMap = ui.worldMap;
-		try {
-			robot = new Robot();
-		} catch (AWTException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		createMapBackround();
 	}
 
-	public void createMapBackround() {
-		ui.startMenu.panel.setVisible(false);
-		GenerateFrameService generateFrameService = new GenerateFrameService();
-		panel = new JPanel();
-		label = new JLabel();
-		lowerLabel = new JLabel();
-		generateFrameService.setGameWindow(panel, gameWindow, gameWindow.getWidth(), gameWindow.getHeight());
-		generateFrameService.createBackround(label, "Map.jpg", panel, gameWindow.getWidth(),
-				gameWindow.getHeight() - 100);
-		generateFrameService.createLowerLabel(lowerLabel, panel, 0, gameWindow.getHeight() - 100, gameWindow.getWidth(),
-				100);
-
-		panel.setBackground(Color.WHITE);
-		lowerLabel.setText("hello world");
+	public void devide() {
+		InitBackround();
 		devideTerritory();
 	}
 
-	public void devideTerritory() {
-		int selected = 0;
-		int playernum = 0;
-		panel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				selectTerritory(playernum);
-				x = e.getX();
-				y = e.getY();
-				String s;
+	public void InitBackround() {
+		cMapBackround = new CreateMapBackround(ui);
+		this.label = cMapBackround.label;
+		this.panel = cMapBackround.panel;
+		this.lowerLabel = cMapBackround.lowerLabel;
+		this.leftList = cMapBackround.leftList;
+		this.leftSP = cMapBackround.leftSP;
+		this.rightList = cMapBackround.rightlist;
+		this.rightSP = cMapBackround.rightSP;
+		ui.leftList = this.leftList;
+		ui.rightList = this.rightList;
 
-				int rgb = getColorAt(gameWindow, new Point(x, y));
-				s = (new Color(rgb, true)).toString();
-				// if (worldMap.colorsMatch.ConatinsRGB(rgb)) {
-				// s = worldMap.colorsMatch.geTerritory(rgb).getName();
-				// } else {
-				// s = String.valueOf(rgb);
-				// }
-				lowerLabel.setText(s);
+	}
+
+	public void devideTerritory() {
+		lowerLabel.setText("player1 turn");
+		currentPlayerNum = 1;
+		panel.addMouseListener(new MouseAdapter() {
+
+			int selected = 0;
+			boolean currently_deviding = true;
+			DefaultListModel<String> listModel;
+			Player currentPlayer;
+
+			@Override
+
+			public void mousePressed(MouseEvent e) {
+
+				if (currently_deviding) {
+					x = e.getX();
+					y = e.getY();
+					String s;
+
+					int rgb = getColorAt(panel, new Point(x, y));
+					s = (new Color(rgb, true)).toString();
+					if (worldMap.colorsMatch.ConatinsColor(new Color(rgb))
+							&& worldMap.colorsMatch.getTerritory(new Color(rgb)) != null) {
+						Territory temp = worldMap.colorsMatch.getTerritory(new Color(rgb));
+						if (temp.getPlayer_controling() == 0) {
+							int result = JOptionPane.showConfirmDialog(gameWindow,
+									"Sure you want to select: " + temp.getName(), "validate the chosen country",
+									JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+							if (result == JOptionPane.YES_OPTION) {
+								selected++;
+								temp.setPlayer_controling(currentPlayerNum);
+								currentPlayer = ui.getPlayer(currentPlayerNum);
+								if (currentPlayerNum == 1) {
+									addToJlist(leftList, temp, currentPlayer);
+									currentPlayerNum++;
+								} else {
+									addToJlist(rightList, temp, currentPlayer);
+									currentPlayerNum--;
+								}
+								if (selected < 41) {
+									lowerLabel.setText("player" + currentPlayerNum + " turn");
+								} else {
+									cont();
+								}
+							}
+
+						} else {
+							lowerLabel.setText(
+									"player" + currentPlayerNum + " turn. " + temp.getName() + " already selected");
+						}
+					} else {
+						s = String.valueOf(rgb);
+						lowerLabel.setText(s);
+					}
+				}
 
 			}
 		});
 
 	}
 
-	public static int getColorAt(JFrame frm, Point p) {
-		Rectangle rect = frm.getContentPane().getBounds();
-		BufferedImage img = new BufferedImage(rect.width, rect.height, BufferedImage.TYPE_INT_ARGB);
-		frm.getContentPane().paintAll(img.createGraphics());
+	public void addToJlist(JList<String> list, Territory temp, Player currPlayer) {
+		currPlayer.addTerritory(temp);
+		DefaultListModel<String> listModel = (DefaultListModel<String>) list.getModel();
+		listModel.addElement(temp.toString());
+		list.setModel(listModel);
+
+	}
+
+	public static int getColorAt(JPanel panel, Point p) {
+		BufferedImage img = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = img.createGraphics();
+		panel.paint(g);
+		g.dispose();
 		return img.getRGB(p.x, p.y);
 	}
 
-	public void selectTerritory(int playernum) {
-		Color color;
-		color = robot.getPixelColor(x, y);
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Player currentPlayer;
+		int counter = 0;
+		int result = JOptionPane.showConfirmDialog(gameWindow,
+				"Are you sure you want to devide the remainig territorys randomly?", "validate the chosen country",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (result == JOptionPane.YES_OPTION) {
+			lowerLabel.setText("random!");
+			for (Territory t : worldMap.getAllTerritories()) {
+				counter++;
+				if (t.getPlayer_controling() == 0) {
+					t.setPlayer_controling(currentPlayerNum);
+					currentPlayer = ui.getPlayer(currentPlayerNum);
+					if (currentPlayerNum == 1) {
+						addToJlist(leftList, t, currentPlayer);
+						currentPlayerNum++;
+					} else {
+						addToJlist(rightList, t, currentPlayer);
+						currentPlayerNum--;
+					}
+				}
+			}
+			lowerLabel.setText(String.valueOf(counter));
+			cMapBackround.randomButton.setVisible(false);
+			cont();
+
+		}
 
 	}
 
+	public void cont() {
+		lowerLabel.setText("selected all");
+		ui.PositionStartUnits();
+	}
 }

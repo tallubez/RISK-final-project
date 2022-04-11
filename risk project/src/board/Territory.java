@@ -30,7 +30,7 @@ public class Territory {
 		this.RGB = RGB;
 		worldMap.colorsMatch.setTerritory(RGB, this);
 		unit_anoumt = 0;
-		player_controling = -1;
+		player_controling = 0;
 		borderingTerritories = new HashSet<>();
 	}
 
@@ -50,12 +50,20 @@ public class Territory {
 		this.player_controling = player_controling;
 	}
 
-	public int getUnit_anoumt() {
+	public int getUnitAmount() {
 		return unit_anoumt;
 	}
 
-	public void setUnit_anoumt(int unit_anoumt) {
+	public void setUnitAmount(int unit_anoumt) {
 		this.unit_anoumt = unit_anoumt;
+	}
+
+	public void addUnits(int unit_amount) {
+		this.unit_anoumt += unit_amount;
+	}
+
+	public void subUnits(int unit_amount) {
+		this.unit_anoumt -= unit_amount;
 	}
 
 	public String getName() {
@@ -72,6 +80,11 @@ public class Territory {
 
 	public void addBorder(Territory t) {
 		borderingTerritories.add(t);
+	}
+
+	@Override
+	public String toString() {
+		return name + ", units: " + unit_anoumt;
 	}
 
 }

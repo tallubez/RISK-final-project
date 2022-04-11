@@ -23,9 +23,9 @@ public class StartMenu implements ActionListener {
 		panel = new JPanel();
 		label = new JLabel();
 		generateFrameService.createGameWindow(gameWindow);
-		generateFrameService.setGameWindow(panel, gameWindow, gameWindow.getWidth(), gameWindow.getHeight());
+		generateFrameService.setGameWindow(panel, gameWindow, 0, 0, gameWindow.getWidth(), gameWindow.getHeight());
 		generateFrameService.createButton("1V1-180x67.jpg", 485, 350, 180, 67, "play1v1", panel, this);
-		generateFrameService.createBackround(label, "boxBackround1150x700.jpg", panel, gameWindow.getWidth(),
+		generateFrameService.createBackround(label, "boxBackround1150x700.jpg", panel, 0, 0, gameWindow.getWidth(),
 				gameWindow.getHeight());
 		gameWindow.setVisible(true);
 

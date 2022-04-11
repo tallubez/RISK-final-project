@@ -15,8 +15,9 @@ import javax.swing.JPanel;
 public class GenerateFrameService {
 	public void createGameWindow(JFrame gameWindow) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int width = (int) screenSize.getWidth() - 100;
 		int height = (int) screenSize.getHeight() - 100;
+		int width = ((height - 100) * 1227) / 628;
+		width += 300;
 		gameWindow.setSize(width, height);
 		gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameWindow.getContentPane().setBackground(Color.black);
@@ -25,16 +26,16 @@ public class GenerateFrameService {
 
 	}
 
-	public void setGameWindow(JPanel panel, JFrame gameWindow, int x, int y) {
-		panel.setBounds(0, 0, x, y);
+	public void setGameWindow(JPanel panel, JFrame gameWindow, int start_x, int start_y, int x, int y) {
+		panel.setBounds(start_x, start_y, x, y);
 		panel.setBackground(null);
 		panel.setLayout(null);
 		gameWindow.add(panel);
 	}
 
-	public void createBackround(JLabel label, String path, JPanel panel, int x, int y) {
+	public void createBackround(JLabel label, String path, JPanel panel, int start_x, int start_y, int x, int y) {
 
-		label.setBounds(0, 0, x, y);
+		label.setBounds(start_x, start_y, x, y);
 		ImageIcon bgIcon = new ImageIcon(getClass().getClassLoader().getResource(path));
 		Image img = bgIcon.getImage();
 		img = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
@@ -43,23 +44,30 @@ public class GenerateFrameService {
 		panel.add(label);
 	}
 
-	public void createLowerLabel(JLabel label, JPanel panel, int startX, int startY, int x, int y) {
+	public void createLabel(JLabel label, JPanel panel, int startX, int startY, int x, int y) {
 		label.setBounds(startX, startY, x, y);
 		panel.add(label);
 	}
 
-	public void createButton(String buttonName, int x, int y, int wigth, int hight, String command, JPanel panel,
+	public JButton createButton(String buttonName, int x, int y, int wigth, int hight, String command, JPanel panel,
 			ActionListener actionListener) {
-		ImageIcon play1v1Icon = new ImageIcon(getClass().getClassLoader().getResource(buttonName));
 		JButton playButton = new JButton();
 		playButton.setBounds(x, y, wigth, hight);
 		playButton.setBackground(null);
 		playButton.setContentAreaFilled(false);
 		playButton.setFocusPainted(false);
-		playButton.setIcon(play1v1Icon);
+		if (buttonName != null) {
+			ImageIcon bgIcon = new ImageIcon(getClass().getClassLoader().getResource(buttonName));
+			Image img = bgIcon.getImage();
+			img = img.getScaledInstance(playButton.getWidth(), playButton.getHeight(), Image.SCALE_SMOOTH);
+			ImageIcon scaledIcon = new ImageIcon(img);
+			playButton.setIcon(scaledIcon);
+
+		}
 		playButton.addActionListener(actionListener);
 		playButton.setActionCommand(command);
 		panel.add(playButton);
+		return playButton;
 
 	}
 

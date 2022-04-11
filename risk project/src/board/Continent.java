@@ -1,5 +1,6 @@
 package board;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public class Continent {
@@ -54,6 +55,10 @@ public class Continent {
 
 	public Territory geTerritory(String name) {
 		return territorysList.get(name);
+	}
+
+	public Collection<Territory> getAllTerritories() {
+		return territorysList.values();
 	}
 
 }

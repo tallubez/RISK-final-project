@@ -1,6 +1,8 @@
 package board;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import Utils.ColorsMatch;
 
@@ -35,6 +37,15 @@ public class WorldMap {
 
 	public Territory getTerritory(String cname, String tname) {
 		return getContinent(cname).geTerritory(tname);
+	}
+
+	public Collection<Territory> getAllTerritories() {
+		Collection<Territory> territories = new HashSet<Territory>();
+		for (Continent c : continents.values()) {
+			territories.addAll(c.getAllTerritories());
+		}
+		return territories;
+
 	}
 
 }
