@@ -1,7 +1,12 @@
 package Utils;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
+
+import javax.swing.JPanel;
 
 import board.Territory;
 import board.WorldMap;
@@ -51,6 +56,14 @@ public class ColorsMatch {
 			}
 		}
 		return null;
+	}
+
+	public static int getColorAt(JPanel panel, Point p) {
+		BufferedImage img = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = img.createGraphics();
+		panel.paint(g);
+		g.dispose();
+		return img.getRGB(p.x, p.y);
 	}
 
 }

@@ -14,6 +14,7 @@ public class PositionStartingUnits {
 		SetUnitsTo1(ui.getPlayer(1));
 		SetUnitsTo1(ui.getPlayer(2));
 		PositionUnits(ui.getPlayer(1));
+		PositionUnits(ui.getPlayer(2));
 
 	}
 
@@ -26,7 +27,6 @@ public class PositionStartingUnits {
 	public void PositionUnits(Player p) {
 		int remainig_units = 100 - p.getAmount_controling();
 		String temp;
-		int selected_units;
 		for (Territory t : p.territories_controling) {
 			if (remainig_units > 0) {
 				temp = (String) JOptionPane.showInputDialog(ui.gameWindow,
@@ -40,7 +40,10 @@ public class PositionStartingUnits {
 							"enter anumber between 0 and " + remainig_units);
 				}
 				t.addUnits(Integer.parseInt(temp));
+				p.getTerritoryList().updateText(t);
 				remainig_units -= (Integer.parseInt(temp));
+				ui.sCountries.lowerLabel.setText(String.valueOf(t.getUnitAmount()));
+
 			}
 		}
 	}

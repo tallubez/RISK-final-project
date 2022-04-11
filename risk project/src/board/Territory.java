@@ -10,6 +10,7 @@ public class Territory {
 	private int player_controling;
 	private int unit_anoumt;
 	private int RGB;
+	public int index;
 	public HashSet<Territory> borderingTerritories;
 	public WorldMap worldMap;
 
@@ -19,6 +20,14 @@ public class Territory {
 
 	public void setRGB(int rGB) {
 		RGB = rGB;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 	public Territory(String name, Continent continent, int reinforcment_amount, int RGB, WorldMap worldMap) {
@@ -32,6 +41,7 @@ public class Territory {
 		unit_anoumt = 0;
 		player_controling = 0;
 		borderingTerritories = new HashSet<>();
+		index = -1;
 	}
 
 	public int getReinforcement_amount() {
@@ -58,12 +68,12 @@ public class Territory {
 		this.unit_anoumt = unit_anoumt;
 	}
 
-	public void addUnits(int unit_amount) {
-		this.unit_anoumt += unit_amount;
+	public void addUnits(int add) {
+		this.unit_anoumt += add;
 	}
 
-	public void subUnits(int unit_amount) {
-		this.unit_anoumt -= unit_amount;
+	public void subUnits(int sub) {
+		this.unit_anoumt -= sub;
 	}
 
 	public String getName() {

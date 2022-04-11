@@ -1,11 +1,14 @@
 package main;
 
 import javax.swing.JFrame;
-import javax.swing.JList;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import RunGame.PlayTurn;
 import SetUpGame.PositionStartingUnits;
 import SetUpGame.SelectCountries;
+import Utils.SideList;
 import board.InitiateWorldMap;
 import board.WorldMap;
 
@@ -14,11 +17,15 @@ public class UI {
 	public StartMenu startMenu;
 	public WorldMap worldMap;
 	public Player[] players;
-	public JList<String> leftList;
+	public SideList leftList;
 	public JScrollPane leftSP;
-	public JList<String> rightList;
+	public SideList rightList;
 	public JScrollPane rightSP;
+	public JPanel mainPanel;
+	public JLabel mainLabel;
+	public JLabel lowerLabel;
 	public SelectCountries sCountries;
+	public PlayTurn pTurn;
 
 	public UI() {
 		worldMap = new WorldMap();
@@ -34,6 +41,10 @@ public class UI {
 	public void SelectCountries() {
 		sCountries = new SelectCountries(this);
 		sCountries.devide();
+		mainLabel = sCountries.label;
+		mainPanel = sCountries.panel;
+		lowerLabel = sCountries.lowerLabel;
+
 	}
 
 	public void PositionStartUnits() {

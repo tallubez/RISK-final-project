@@ -1,22 +1,21 @@
 package SetUpGame;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
-import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import Utils.ColorsMatch;
+import Utils.SideList;
 import board.Territory;
 import board.WorldMap;
 import main.Player;
@@ -30,11 +29,13 @@ public class SelectCountries implements ActionListener {
 	public JLabel lowerLabel;
 	private UI ui;
 	private WorldMap worldMap;
-	public JList<String> leftList;
+	public SideList leftList;
 	public JScrollPane leftSP;
-	public JList<String> rightList;
+	public SideList rightList;
 	public JScrollPane rightSP;
-	CreateMapBackround cMapBackround;
+	public JButton finishTurnButton;
+	public CreateMapBackround cMapBackround;
+	private MouseAdapter mouseAdapter;
 	private int x, y;
 	private int currentPlayerNum;
 
@@ -58,6 +59,7 @@ public class SelectCountries implements ActionListener {
 		this.leftSP = cMapBackround.leftSP;
 		this.rightList = cMapBackround.rightlist;
 		this.rightSP = cMapBackround.rightSP;
+		this.finishTurnButton = cMapBackround.finishTurnButton;
 		ui.leftList = this.leftList;
 		ui.rightList = this.rightList;
 
@@ -66,11 +68,10 @@ public class SelectCountries implements ActionListener {
 	public void devideTerritory() {
 		lowerLabel.setText("player1 turn");
 		currentPlayerNum = 1;
-		panel.addMouseListener(new MouseAdapter() {
+		mouseAdapter = new MouseAdapter() {
 
 			int selected = 0;
 			boolean currently_deviding = true;
-			DefaultListModel<String> listModel;
 			Player currentPlayer;
 
 			@Override
@@ -82,7 +83,7 @@ public class SelectCountries implements ActionListener {
 					y = e.getY();
 					String s;
 
-					int rgb = getColorAt(panel, new Point(x, y));
+					int rgb = ColorsMatch.getColorAt(panel, new Point(x, y));
 					s = (new Color(rgb, true)).toString();
 					if (worldMap.colorsMatch.ConatinsColor(new Color(rgb))
 							&& worldMap.colorsMatch.getTerritory(new Color(rgb)) != null) {
@@ -96,15 +97,16 @@ public class SelectCountries implements ActionListener {
 								temp.setPlayer_controling(currentPlayerNum);
 								currentPlayer = ui.getPlayer(currentPlayerNum);
 								if (currentPlayerNum == 1) {
-									addToJlist(leftList, temp, currentPlayer);
+									addToSidelist(leftList, temp, currentPlayer);
 									currentPlayerNum++;
 								} else {
-									addToJlist(rightList, temp, currentPlayer);
+									addToSidelist(rightList, temp, currentPlayer);
 									currentPlayerNum--;
 								}
 								if (selected < 41) {
 									lowerLabel.setText("player" + currentPlayerNum + " turn");
 								} else {
+									panel.removeMouseListener(this);
 									cont();
 								}
 							}
@@ -120,24 +122,14 @@ public class SelectCountries implements ActionListener {
 				}
 
 			}
-		});
 
+		};
+		panel.addMouseListener(mouseAdapter);
 	}
 
-	public void addToJlist(JList<String> list, Territory temp, Player currPlayer) {
+	public void addToSidelist(SideList list, Territory temp, Player currPlayer) {
+		temp.setIndex(currPlayer.getAmount_controling());
 		currPlayer.addTerritory(temp);
-		DefaultListModel<String> listModel = (DefaultListModel<String>) list.getModel();
-		listModel.addElement(temp.toString());
-		list.setModel(listModel);
-
-	}
-
-	public static int getColorAt(JPanel panel, Point p) {
-		BufferedImage img = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = img.createGraphics();
-		panel.paint(g);
-		g.dispose();
-		return img.getRGB(p.x, p.y);
 	}
 
 	@Override
@@ -155,10 +147,10 @@ public class SelectCountries implements ActionListener {
 					t.setPlayer_controling(currentPlayerNum);
 					currentPlayer = ui.getPlayer(currentPlayerNum);
 					if (currentPlayerNum == 1) {
-						addToJlist(leftList, t, currentPlayer);
+						addToSidelist(leftList, t, currentPlayer);
 						currentPlayerNum++;
 					} else {
-						addToJlist(rightList, t, currentPlayer);
+						addToSidelist(rightList, t, currentPlayer);
 						currentPlayerNum--;
 					}
 				}
@@ -172,6 +164,7 @@ public class SelectCountries implements ActionListener {
 	}
 
 	public void cont() {
+		panel.removeMouseListener(mouseAdapter);
 		lowerLabel.setText("selected all");
 		ui.PositionStartUnits();
 	}
