@@ -16,67 +16,49 @@ import main.UI;
 
 public class PlayTurn implements ActionListener {
 	public UI ui;
+	private MouseAdapter mAdapter;
 
 	public PlayTurn(UI ui) {
 		this.ui = ui;
-		CreateRuningGameMap cGameMap = new CreateRuningGameMap(ui);
+		runTurn(1);
+
 	}
 
-	public void runTurn(Player player) {
+	public void runTurn(int currentPlayerNum) {
 		ui.lowerLabel.setText("player1 turn");
-		int currentPlayerNum = 1;
-		ui.mainPanel.addMouseListener(new MouseAdapter() {
-
-			int selected = 0;
-			boolean currently_deviding = true;
-			Player currentPlayer;
+		mAdapter = new MouseAdapter() {
+			Player currentPlayer = ui.getPlayer(currentPlayerNum);
 
 			@Override
 
 			public void mousePressed(MouseEvent e) {
 
-					int x = e.getX();
-					int y = e.getY();
-					String s;
-					int rgb = ColorsMatch.getColorAt(panel, new Point(x, y));
-					s = (new Color(rgb, true)).toString();
-					if (worldMap.colorsMatch.ConatinsColor(new Color(rgb))
-							&& worldMap.colorsMatch.getTerritory(new Color(rgb)) != null) {
-						Territory temp = worldMap.colorsMatch.getTerritory(new Color(rgb));
-						if (temp.getPlayer_controling() == 0) {
-							int result = JOptionPane.showConfirmDialog(gameWindow,
-									"Sure you want to select: " + temp.getName(), "validate the chosen country",
-									JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-							if (result == JOptionPane.YES_OPTION) {
-								selected++;
-								temp.setPlayer_controling(currentPlayerNum);
-								currentPlayer = ui.getPlayer(currentPlayerNum);
-								if (currentPlayerNum == 1) {
-									addToSidelist(leftList, temp, currentPlayer);
-									currentPlayerNum++;
-								} else {
-									addToSidelist(rightList, temp, currentPlayer);
-									currentPlayerNum--;
-								}
-								if (selected < 41) {
-									lowerLabel.setText("player" + currentPlayerNum + " turn");
-								} else {
-									cont();
-								}
-							}
+				int x = e.getX();
+				int y = e.getY();
+				int rgb = ColorsMatch.getColorAt(ui.mainPanel, new Point(x, y));
+				if (ui.worldMap.colorsMatch.ConatinsColor(new Color(rgb))
+						&& ui.worldMap.colorsMatch.getTerritory(new Color(rgb)) != null) {
+					Territory temp = ui.worldMap.colorsMatch.getTerritory(new Color(rgb));
+					if (temp.getPlayer_controling() == currentPlayerNum) {
+						int result = JOptionPane.showConfirmDialog(ui.gameWindow,
+								"Sure you want to attack from: " + temp.getName(), "validate the chosen country",
+								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if (result == JOptionPane.YES_OPTION) {
 
-						} else {
-							lowerLabel.setText(
-									"player" + currentPlayerNum + " turn. " + temp.getName() + " already selected");
 						}
-					} else {
-						s = String.valueOf(rgb);
-						lowerLabel.setText(s);
-					}
-				}
 
+					} else {
+						ui.lowerLabel.setText(
+								"player" + currentPlayerNum + " turn. " + temp.getName() + "isn't controlled by you");
+					}
+				} else {
+					String s = String.valueOf(rgb);
+					ui.lowerLabel.setText(s);
+				}
 			}
-		});
+
+		};
+		ui.mainPanel.addMouseListener(mAdapter);
 
 	}
 
