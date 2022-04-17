@@ -35,7 +35,6 @@ public class SelectCountries implements ActionListener {
 	public JScrollPane rightSP;
 	public JButton finishTurnButton;
 	public CreateMapBackround cMapBackround;
-	private MouseAdapter mouseAdapter;
 	private int x, y;
 	private int currentPlayerNum;
 
@@ -68,63 +67,65 @@ public class SelectCountries implements ActionListener {
 	public void devideTerritory() {
 		lowerLabel.setText("player1 turn");
 		currentPlayerNum = 1;
-		mouseAdapter = new MouseAdapter() {
+		ui.mouseAdapter = new MouseAdapter() {
 
 			int selected = 0;
-			boolean currently_deviding = true;
+
 			Player currentPlayer;
 
 			@Override
 
 			public void mousePressed(MouseEvent e) {
 
-				if (currently_deviding) {
-					x = e.getX();
-					y = e.getY();
-					String s;
+				x = e.getX();
+				y = e.getY();
+				String s;
 
-					int rgb = ColorsMatch.getColorAt(panel, new Point(x, y));
-					s = (new Color(rgb, true)).toString();
-					if (worldMap.colorsMatch.ConatinsColor(new Color(rgb))
-							&& worldMap.colorsMatch.getTerritory(new Color(rgb)) != null) {
-						Territory temp = worldMap.colorsMatch.getTerritory(new Color(rgb));
-						if (temp.getPlayer_controling() == 0) {
-							int result = JOptionPane.showConfirmDialog(gameWindow,
-									"Sure you want to select: " + temp.getName(), "validate the chosen country",
-									JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-							if (result == JOptionPane.YES_OPTION) {
-								selected++;
-								temp.setPlayer_controling(currentPlayerNum);
-								currentPlayer = ui.getPlayer(currentPlayerNum);
-								if (currentPlayerNum == 1) {
-									addToSidelist(leftList, temp, currentPlayer);
-									currentPlayerNum++;
-								} else {
-									addToSidelist(rightList, temp, currentPlayer);
-									currentPlayerNum--;
-								}
-								if (selected < 41) {
-									lowerLabel.setText("player" + currentPlayerNum + " turn");
-								} else {
-									panel.removeMouseListener(this);
-									cont();
-								}
+				int rgb = ColorsMatch.getColorAt(panel, new Point(x, y));
+				s = (new Color(rgb, true)).toString();
+				if (worldMap.colorsMatch.ConatinsColor(new Color(rgb))
+						&& worldMap.colorsMatch.getTerritory(new Color(rgb)) != null) {
+					Territory temp = worldMap.colorsMatch.getTerritory(new Color(rgb));
+					if (temp.getPlayer_controling() == 0) {
+
+						int result = JOptionPane.showConfirmDialog(gameWindow,
+								"Sure you want to select: " + temp.getName(), "validate the chosen country",
+								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if (result == JOptionPane.YES_OPTION) {
+							selected++;
+							temp.getContinent().TerrChosen(currentPlayerNum);
+							temp.setPlayer_controling(currentPlayerNum);
+							currentPlayer = ui.getPlayer(currentPlayerNum);
+							if (currentPlayerNum == 1) {
+								addToSidelist(leftList, temp, currentPlayer);
+								currentPlayerNum++;
+							} else {
+								addToSidelist(rightList, temp, currentPlayer);
+								currentPlayerNum--;
 							}
-
-						} else {
-							lowerLabel.setText(
-									"player" + currentPlayerNum + " turn. " + temp.getName() + " already selected");
+							if (selected < 41) {
+								lowerLabel.setText("player" + currentPlayerNum + " turn");
+							} else {
+								panel.removeMouseListener(this);
+								cont();
+							}
 						}
-					} else {
-						s = String.valueOf(rgb);
-						lowerLabel.setText(s);
-					}
-				}
 
+					} else {
+						lowerLabel.setText(
+								"player" + currentPlayerNum + " turn. " + temp.getName() + " already selected");
+					}
+				} else {
+					s = String.valueOf(rgb);
+					lowerLabel.setText(s);
+				}
 			}
 
 		};
-		panel.addMouseListener(mouseAdapter);
+		for (int i = 0; i < panel.getMouseListeners().length; i++) {
+			panel.removeMouseListener(panel.getMouseListeners()[i]);
+		}
+		panel.addMouseListener(ui.mouseAdapter);
 	}
 
 	public void addToSidelist(SideList list, Territory temp, Player currPlayer) {
@@ -164,7 +165,7 @@ public class SelectCountries implements ActionListener {
 	}
 
 	public void cont() {
-		panel.removeMouseListener(mouseAdapter);
+		panel.removeMouseListener(ui.mouseAdapter);
 		lowerLabel.setText("selected all");
 		ui.PositionStartUnits();
 	}

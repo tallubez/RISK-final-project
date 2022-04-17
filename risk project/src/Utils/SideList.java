@@ -6,6 +6,7 @@ import javax.swing.JList;
 import board.Territory;
 
 public class SideList extends JList<Territory> {
+
 	public int leangth;
 
 	public SideList(DefaultListModel<Territory> defaultListModel) {
@@ -28,7 +29,6 @@ public class SideList extends JList<Territory> {
 
 	@Override
 	public void remove(int index) {
-		get(index).setIndex(-1);
 		DefaultListModel<Territory> listModel = (DefaultListModel<Territory>) this.getModel();
 		for (int i = index + 1; i < leangth; i++) {
 			listModel.get(i).index--;

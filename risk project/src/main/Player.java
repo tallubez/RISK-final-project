@@ -9,10 +9,16 @@ public class Player {
 	public HashSet<Territory> territories_controling;
 	SideList territoryList;
 	public int amount_controling;
+	private int playerNum;
 
-	public Player() {
+	public Player(int num) {
+		playerNum = num;
 		territories_controling = new HashSet<>();
 		amount_controling = 0;
+	}
+
+	public int getPlayerNum() {
+		return playerNum;
 	}
 
 	public int getAmount_controling() {
@@ -30,6 +36,7 @@ public class Player {
 	}
 
 	public void removeTerritory(Territory t) {
+		territoryList.remove(t.index);
 		territories_controling.remove(t);
 		amount_controling--;
 	}

@@ -13,18 +13,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GenerateFrameService {
-	public static void createWindow(JFrame Window, int height, int width) {
+	public static void createWindow(JFrame Window, int width, int height) {
 		if (height == -1) {
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			height = (int) screenSize.getHeight() - 100;
 			width = ((height - 100) * 1227) / 628;
 			width += 300;
+			Window.setTitle("Risk by Tal");
 		}
 		Window.setSize(width, height);
 		Window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Window.getContentPane().setBackground(Color.black);
+		Window.getContentPane().setBackground(Color.WHITE);
 		Window.setLayout(null);
-		Window.setTitle("Risk by Tal");
 
 	}
 

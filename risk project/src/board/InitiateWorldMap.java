@@ -20,12 +20,12 @@ public class InitiateWorldMap {
 	}
 
 	public void InitiateContinents() {
-		northAmerica = new Continent("North America", worldMap);
-		southAmerica = new Continent("South America", worldMap);
-		Africa = new Continent("Africa", worldMap);
-		Asia = new Continent("Asia", worldMap);
-		Europe = new Continent("Europe", worldMap);
-		Australia = new Continent("Australia", worldMap);
+		northAmerica = new Continent("North America", worldMap, 5);
+		southAmerica = new Continent("South America", worldMap, 2);
+		Africa = new Continent("Africa", worldMap, 3);
+		Asia = new Continent("Asia", worldMap, 7);
+		Europe = new Continent("Europe", worldMap, 5);
+		Australia = new Continent("Australia", worldMap, 2);
 	}
 
 	public void InitiateTerritorys() {
@@ -68,7 +68,6 @@ public class InitiateWorldMap {
 		setBorder(northCanada, alaska);
 		setBorder(greenland, northCanada);
 		setBorder(greenland, eastCanada);
-		setBorder(greenland, onterio);
 		// Europe
 		Territory iceland = new Territory("Iceland", Europe, 2, -3620889, worldMap);
 		Territory britain = new Territory("Britain", Europe, 1, -5188649, worldMap);

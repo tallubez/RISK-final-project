@@ -35,8 +35,13 @@ public class WorldMap {
 		return continents.get(name);
 	}
 
-	public Territory getTerritory(String cname, String tname) {
-		return getContinent(cname).geTerritory(tname);
+	public Territory getTerritory(String name) {
+		for (Continent c : continents.values()) {
+			if (c.getTerritory(name) != null) {
+				return c.getTerritory(name);
+			}
+		}
+		return null;
 	}
 
 	public Collection<Territory> getAllTerritories() {

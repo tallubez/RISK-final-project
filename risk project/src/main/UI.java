@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.event.MouseAdapter;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,6 +28,7 @@ public class UI {
 	public JLabel lowerLabel;
 	public SelectCountries sCountries;
 	public PlayTurn pTurn;
+	public MouseAdapter mouseAdapter;
 
 	public UI() {
 		worldMap = new WorldMap();
@@ -33,8 +36,9 @@ public class UI {
 		startMenu = new StartMenu(this);
 		InitiateWorldMap initiateWorldMap = new InitiateWorldMap(this);
 		players = new Player[2];
-		players[0] = new Player();
-		players[1] = new Player();
+		players[0] = new Player(1);
+		players[1] = new Player(2);
+		pTurn = new PlayTurn(this);
 
 	}
 
@@ -53,6 +57,7 @@ public class UI {
 	}
 
 	public void RunTurns() {
+		pTurn.initMouseListener();
 
 	}
 

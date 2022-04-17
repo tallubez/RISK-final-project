@@ -38,20 +38,19 @@ public class CreateMapBackround {
 
 	public void createMapBackround() {
 		ui.startMenu.panel.setVisible(false);
-		GenerateFrameService generateFrameService = new GenerateFrameService();
 		panel = new JPanel();
 		label = new JLabel();
 		lowerLabel = new JLabel();
-		generateFrameService.setGameWindow(panel, gameWindow, 150, 0, gameWindow.getWidth() - 300,
+		GenerateFrameService.setGameWindow(panel, gameWindow, 150, 0, gameWindow.getWidth() - 300,
 				gameWindow.getHeight());
-		randomButton = generateFrameService.createButton("random.jpg", panel.getWidth() - 150, panel.getHeight() - 100,
+		randomButton = GenerateFrameService.createButton("random.jpg", panel.getWidth() - 150, panel.getHeight() - 100,
 				150, 50, "devide randomly", panel, ui.sCountries);
-		finishTurnButton = generateFrameService.createButton("finishturn.png", panel.getWidth() - 150,
+		finishTurnButton = GenerateFrameService.createButton("finishturn.png", panel.getWidth() - 150,
 				panel.getHeight() - 100, 150, 50, "finish turn", panel, ui.pTurn);
 
-		generateFrameService.createBackround(label, "mainmapnew.png", panel, 0, 0, gameWindow.getWidth() - 300,
+		GenerateFrameService.createBackround(label, "mainmapnew.png", panel, 0, 0, gameWindow.getWidth() - 300,
 				gameWindow.getHeight() - 100);
-		generateFrameService.createLabel(lowerLabel, panel, 0, gameWindow.getHeight() - 100, gameWindow.getWidth(),
+		GenerateFrameService.createLabel(lowerLabel, panel, 0, gameWindow.getHeight() - 100, gameWindow.getWidth(),
 				100);
 
 		panel.setBackground(Color.WHITE);

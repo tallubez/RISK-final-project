@@ -94,7 +94,7 @@ public class Territory {
 
 	@Override
 	public String toString() {
-		return name + ", units: " + unit_anoumt;
+		return name + ", units: " + unit_anoumt + " i: " + index;
 	}
 
 }
