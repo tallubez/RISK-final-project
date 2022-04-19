@@ -23,7 +23,8 @@ public class StartMenu implements ActionListener {
 		label = new JLabel();
 		GenerateFrameService.createWindow(gameWindow, -1, -1);
 		GenerateFrameService.setGameWindow(panel, gameWindow, 0, 0, gameWindow.getWidth(), gameWindow.getHeight());
-		GenerateFrameService.createButton("1V1-180x67.jpg", 485, 350, 180, 67, "play1v1", panel, this);
+		GenerateFrameService.createButton("1V1-180x67.jpg", 485, 350, 180, 67, "1v1", panel, this);
+		GenerateFrameService.createButton("cpu.jpg", 515, 450, 120, 120, "cpu", panel, this);
 		GenerateFrameService.createBackround(label, "boxBackround1150x700.jpg", panel, 0, 0, gameWindow.getWidth(),
 				gameWindow.getHeight());
 		gameWindow.setVisible(true);
@@ -32,6 +33,9 @@ public class StartMenu implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand() == "cpu") {
+			ui.VScomputer = true;
+		}
 		ui.SelectCountries();
 	}
 

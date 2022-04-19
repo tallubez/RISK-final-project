@@ -20,10 +20,10 @@ public class PlayTurn implements ActionListener {
 	private int currentPlayerNum;
 	private Territory attTerritory;
 	private Territory defTerritory;
+	private int[] turnAmount = { 0, 0 };
 
 	public PlayTurn(UI ui) {
 		this.ui = ui;
-		currentPlayerNum = 1;
 		currentPlayerNum = 1;
 	}
 
@@ -64,7 +64,7 @@ public class PlayTurn implements ActionListener {
 			}
 
 		};
-		if (ui.mainPanel.getMouseListeners().length == 0) {
+		if (ui.mainPanel.getMouseListeners().length != 0) {
 
 			ui.mainPanel.addMouseListener(ui.mouseAdapter);
 		}
@@ -73,11 +73,18 @@ public class PlayTurn implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		MoveUnits.MoveUnit(ui, ui.getPlayer(currentPlayerNum));
+		turnAmount[currentPlayerNum - 1]++;
 		if (currentPlayerNum == 1) {
 			currentPlayerNum = 2;
 		} else {
 			currentPlayerNum = 1;
 		}
+		if (turnAmount[currentPlayerNum - 1] != 0) {
+			Reinforcement.PositionReinforcementUnits(ui.getPlayer(currentPlayerNum), ui);
+
+		}
+		Reinforcement.PositionReinforcementUnits(ui.getPlayer(currentPlayerNum), ui);
 		ui.lowerLabel.setText("player" + currentPlayerNum + " turn");
 	}
 
@@ -98,7 +105,6 @@ public class PlayTurn implements ActionListener {
 		} else {
 			defTerritory = (Territory) JOptionPane.showInputDialog(ui.gameWindow, "select terittory to attack",
 					"who to attack", JOptionPane.PLAIN_MESSAGE, null, possibilities.toArray(), "hey");
-			;
 
 			Player deffender;
 			if (currentPlayerNum == 1) {
@@ -107,10 +113,10 @@ public class PlayTurn implements ActionListener {
 				deffender = ui.getPlayer(1);
 			}
 			int attUnits, defUnits;
-			if (attTerritory.getUnitAmount() >= 3) {
+			if (attTerritory.getUnitAmount() >= 4) {
 				attUnits = 3;
 			} else {
-				attUnits = 2;
+				attUnits = attTerritory.getUnitAmount() - 1;
 			}
 			if (defTerritory.getUnitAmount() >= 2) {
 				defUnits = 2;

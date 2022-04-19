@@ -130,6 +130,10 @@ public class AttackTerritory implements ActionListener {
 		}
 
 		JOptionPane.showMessageDialog(null, "attack finished");
+		if (attacker.getAmount_controling() == ui.worldMap.getTerritoryAmount()) {
+			JOptionPane.showMessageDialog(null, attacker.getPlayerNum() + " won the game, Thank You");
+			ui.gameWindow.dispose();
+		}
 		attackWindow.dispose();
 
 	}

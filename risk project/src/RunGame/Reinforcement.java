@@ -1,17 +1,16 @@
 package RunGame;
 
+import Utils.JActions;
 import board.Continent;
 import main.Player;
 import main.UI;
 
 public class Reinforcement {
-	public UI ui;
 
-	public Reinforcement(UI ui) {
-		this.ui = ui;
+	public Reinforcement() {
 	}
 
-	public int CalcReinforcement(Player currentPlayer) {
+	public static int CalcReinforcement(Player currentPlayer, UI ui) {
 		int total;
 		total = currentPlayer.amount_controling / 3;
 		if (total < 3) {
@@ -23,6 +22,11 @@ public class Reinforcement {
 			}
 		}
 		return total;
+	}
+
+	public static void PositionReinforcementUnits(Player p, UI ui) {
+		int unitAmout = CalcReinforcement(p, ui);
+		JActions.PositionUnits(p, ui, unitAmout);
 	}
 
 }

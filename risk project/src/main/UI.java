@@ -29,6 +29,7 @@ public class UI {
 	public SelectCountries sCountries;
 	public PlayTurn pTurn;
 	public MouseAdapter mouseAdapter;
+	public boolean VScomputer;
 
 	public UI() {
 		worldMap = new WorldMap();

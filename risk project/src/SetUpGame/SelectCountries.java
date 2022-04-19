@@ -66,7 +66,6 @@ public class SelectCountries implements ActionListener {
 
 	public void devideTerritory() {
 		lowerLabel.setText("player1 turn");
-		currentPlayerNum = 1;
 		ui.mouseAdapter = new MouseAdapter() {
 
 			int selected = 0;
@@ -98,13 +97,20 @@ public class SelectCountries implements ActionListener {
 							currentPlayer = ui.getPlayer(currentPlayerNum);
 							if (currentPlayerNum == 1) {
 								addToSidelist(leftList, temp, currentPlayer);
-								currentPlayerNum++;
+								if (!ui.VScomputer) {
+									currentPlayerNum++;
+								}
 							} else {
 								addToSidelist(rightList, temp, currentPlayer);
-								currentPlayerNum--;
+								if (!ui.VScomputer) {
+									currentPlayerNum--;
+								}
 							}
 							if (selected < 41) {
 								lowerLabel.setText("player" + currentPlayerNum + " turn");
+								if (ui.VScomputer) {
+									CPUChoseTerr();
+								}
 							} else {
 								panel.removeMouseListener(this);
 								cont();
@@ -168,5 +174,10 @@ public class SelectCountries implements ActionListener {
 		panel.removeMouseListener(ui.mouseAdapter);
 		lowerLabel.setText("selected all");
 		ui.PositionStartUnits();
+	}
+
+	public void CPUChoseTerr() {
+		Territory chosen;
+
 	}
 }
