@@ -10,7 +10,7 @@ public class Continent {
 	private int value;
 	private int player_controling;
 	public WorldMap worldMap;
-	int[] TerritorysControlledByPlayer;
+	public int[] TerritorysControlledByPlayer;
 
 	public Continent(String name, WorldMap worldMap, int value) {
 		this.worldMap = worldMap;
