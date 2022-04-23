@@ -12,13 +12,31 @@ public class Attack {
 	public Attack() {
 	}
 
-	public static double calcConquerOdds(double att, double def) {
-		return 0;
+	public static Territory DecideWhoToAttack(UI ui, Player cpu) {
 
 	}
 
-	public static void name() {
+	public static double GetTotalAttackScore(UI ui, Player cpu, Territory t) {
+		if (calcConquerOdds(GetEnemyBordering(t, null), t.getUnitAmount()) < 1) {
+			return 0;
+		}
 
+	}
+
+	public static double calcConquerOdds(double att, double def) {
+		double[] result;
+		while (Math.floor(att) >= 3 && Math.floor(def) >= 2) {
+			result = calcAttackOdds(3, 2);
+			att -= result[0];
+			def -= result[1];
+
+		}
+		while (Math.floor(att) > 0 && Math.floor(def) > 0) {
+			result = calcAttackOdds((int) Math.floor(att), (int) Math.floor(def));
+			att -= result[0];
+			def -= result[1];
+		}
+		return att - def;
 	}
 
 	public static double valueOfconquer(UI ui, Territory t, Player cpu) {
@@ -57,12 +75,7 @@ public class Attack {
 
 	public static double[] HowHardWillItBeToKeep(UI ui, Territory t, Player cpu, double conqurResult) {
 		double[] howHardToKeep = new double[2];
-		double enemyUnitsBordering = 0;
-		for (Territory temp : t.borderingTerritories) {
-			if (temp.getPlayer_controling() != cpu.getPlayerNum()) {
-				enemyUnitsBordering += temp.getUnitAmount() - 1;
-			}
-		}
+		double enemyUnitsBordering = GetEnemyBordering(t, null);
 		double UnitsInT;
 		if (conqurResult >= 3) {
 			UnitsInT = 3;
@@ -70,25 +83,50 @@ public class Attack {
 			UnitsInT = conqurResult;
 		}
 		howHardToKeep[0] = calcConquerOdds(enemyUnitsBordering, UnitsInT);
+		howHardToKeep[1] = calcConquerOdds(enemyUnitsBordering, UnitsInT + getMaxMovement(ui, t, cpu));
+		return howHardToKeep;
 
 	}
 
-	public static double HowHardWillItBeToKeepWithMovement(UI ui, Territory t, Player cpu) {
+	public static double getMaxMovement(UI ui, Territory t, Player cpu) {
+		double max = 0;
 		for (Territory temp : t.borderingTerritories) {
-
+			if (temp.getPlayer_controling() == cpu.getPlayerNum()) {
+				;
+				if (temp.getUnitAmount() - 1 > max && GetEnemyBordering(temp, t) != 0) {
+					max = temp.getUnitAmount() - 1;
+				}
+			}
 		}
-
+		return max;
 	}
 
-	public static double calcAttackOdds(int att, int def) {
-		double value = 0;
+	public static int GetEnemyBordering(Territory t, Territory notToInclude) {
+		int enemyUnitsBordering = 0;
+		int playerNum = t.getPlayer_controling();
+		for (Territory temp : t.borderingTerritories) {
+			if (temp.getPlayer_controling() != playerNum) {
+				enemyUnitsBordering += temp.getUnitAmount() - 1;
+			}
+		}
+		if (notToInclude != null) {
+			enemyUnitsBordering -= (notToInclude.getUnitAmount() - 1);
+		}
+		return enemyUnitsBordering;
+	}
+
+	public static double[] calcAttackOdds(int att, int def) {
+		// get in value[0] attacker lost and in value[1] defender lost
+		double[] value = new double[2];
 		switch (att) {
 		case 1: {
 			if (def == 1) {
-				value = 0.4167 - 0.5833;
+				value[0] = 0.5833;
+				value[1] = 0.4167;
 
 			} else {
-				value = 0.2546 - 0.7454;
+				value[0] = 0.7454;
+				value[1] = 0.2546;
 
 			}
 			break;
@@ -96,21 +134,24 @@ public class Attack {
 		}
 		case 2: {
 			if (def == 1) {
-				value = 0.5787 - 0.4213;
+				value[0] = 0.7454;
+				value[1] = 0.2546;
 
 			} else {
-				value = 2 * 0.2276 - 2 * 0.4483;
-
+				value[0] = 2 * 0.4483 + 32.41;
+				value[1] = 2 * 0.2276 + 32.41;
 			}
 			break;
 
 		}
 		case 3: {
-			if (def == 1) {
-				value = 0.6597 - 0.3403;
+			if (def == 2) {
+				value[0] = 2 * 0.2926 + 0.3358;
+				value[1] = 2 * 0.3717 + 0.3358;
 
 			} else {
-				value = 2 * 0.3717 - 2 * 0.2926;
+				value[0] = 0.3403;
+				value[1] = 0.6597;
 
 			}
 			break;
