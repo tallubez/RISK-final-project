@@ -13,13 +13,12 @@ public class JActions {
 	}
 
 	public static void PositionUnits(Player p, UI ui, int unitAmount) {
-		String temp;
 		while (unitAmount > 0) {
 
 			for (Territory t : p.territories_controling) {
 				if (unitAmount > 0) {
 					int selected = GetNumber(ui, 0, unitAmount, t, p);
-					t.addUnits(selected);
+					t.addUnits((double) selected);
 					p.getTerritoryList().updateText(t);
 					unitAmount -= (selected);
 					ui.sCountries.lowerLabel.setText(String.valueOf(t.getUnitAmount()));

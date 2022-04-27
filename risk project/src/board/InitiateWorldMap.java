@@ -76,6 +76,20 @@ public class InitiateWorldMap {
 		Territory germany = new Territory("Germany", Europe, 3, -16776962, worldMap);
 		Territory southEurope = new Territory("SouthEurope", Europe, 6, -7760385, worldMap);
 		Territory eastEurope = new Territory("EastEurope", Europe, 6, -16772991, worldMap);
+		setBorder(iceland, greenland);
+		setBorder(iceland, britain);
+		setBorder(iceland, norway);
+		setBorder(norway, britain);
+		setBorder(norway, eastEurope);
+		setBorder(norway, germany);
+		setBorder(britain, germany);
+		setBorder(britain, westEurope);
+		setBorder(westEurope, germany);
+		setBorder(westEurope, southEurope);
+		setBorder(germany, southEurope);
+		setBorder(germany, eastEurope);
+		setBorder(eastEurope, southEurope);
+
 		// Africa
 		Territory northAfrica = new Territory("NorthAfrica", Africa, 3, -11195392, worldMap);
 		Territory westAfrica = new Territory("WestAfrica", Africa, 5, -28070, worldMap);

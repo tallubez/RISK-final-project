@@ -13,13 +13,37 @@ public class Attack {
 	}
 
 	public static Territory DecideWhoToAttack(UI ui, Player cpu) {
+		Territory selectedTerritory = null;
+		double maxValue = 0;
+		for (Territory t : cpu.territories_controling) {
+			if (GetTotalAttackScore(ui, cpu, t) > maxValue) {
+				selectedTerritory = t;
+				maxValue = GetTotalAttackScore(ui, cpu, t);
+			}
+
+		}
+		return selectedTerritory;
 
 	}
 
 	public static double GetTotalAttackScore(UI ui, Player cpu, Territory t) {
-		if (calcConquerOdds(GetEnemyBordering(t, null), t.getUnitAmount()) < 1) {
+		double conqRes = calcConquerOdds(GetEnemyBordering(t, null), t.getUnitAmount());
+		double UnitsMoves;
+		if (conqRes < 1) {
 			return 0;
 		}
+		if (conqRes >= 3) {
+			UnitsMoves = 3;
+		} else {
+			UnitsMoves = conqRes;
+		}
+		if (HowHardWillItBeToKeep(ui, t, cpu, UnitsMoves)[0] > -1) {
+			return 0;
+		}
+		double value = valueOfconquer(ui, t, cpu);
+		value += conqRes;
+		value -= HowHardWillItBeToKeep(ui, t, cpu, UnitsMoves)[0];
+		return value;
 
 	}
 
@@ -73,17 +97,11 @@ public class Attack {
 		return totalValue;
 	}
 
-	public static double[] HowHardWillItBeToKeep(UI ui, Territory t, Player cpu, double conqurResult) {
+	public static double[] HowHardWillItBeToKeep(UI ui, Territory t, Player cpu, double unitsInT) {
 		double[] howHardToKeep = new double[2];
 		double enemyUnitsBordering = GetEnemyBordering(t, null);
-		double UnitsInT;
-		if (conqurResult >= 3) {
-			UnitsInT = 3;
-		} else {
-			UnitsInT = conqurResult;
-		}
-		howHardToKeep[0] = calcConquerOdds(enemyUnitsBordering, UnitsInT);
-		howHardToKeep[1] = calcConquerOdds(enemyUnitsBordering, UnitsInT + getMaxMovement(ui, t, cpu));
+		howHardToKeep[0] = calcConquerOdds(enemyUnitsBordering, unitsInT);
+		howHardToKeep[1] = calcConquerOdds(enemyUnitsBordering, unitsInT + getMaxMovement(ui, t, cpu));
 		return howHardToKeep;
 
 	}
@@ -159,6 +177,25 @@ public class Attack {
 		}
 		}
 		return value;
+	}
+
+	public static Territory AttackOrigin(UI ui, Player cpu, Territory attacked) {
+		Territory selected = null;
+		;
+		double min = 0, attWith;
+		for (Territory t : attacked.borderingTerritories) {
+			if (t.getUnitAmount() - 1 >= 3) {
+				attWith = 3;
+			} else {
+				attWith = t.getUnitAmount() - 1;
+			}
+			if (HowHardWillItBeToKeep(ui, t, cpu, t.getUnitAmount() - attWith)[0] < min) {
+				selected = t;
+				min = HowHardWillItBeToKeep(ui, t, cpu, t.getUnitAmount() - attWith)[0];
+			}
+		}
+		return selected;
+
 	}
 
 }

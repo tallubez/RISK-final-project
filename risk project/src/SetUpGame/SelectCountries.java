@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import CPU.SelectTerritoryCPU;
 import Utils.ColorsMatch;
 import Utils.SideList;
 import board.Territory;
@@ -37,11 +38,14 @@ public class SelectCountries implements ActionListener {
 	public CreateMapBackround cMapBackround;
 	private int x, y;
 	private int currentPlayerNum;
+	private int selected;
 
 	public SelectCountries(UI ui) {
 		this.ui = ui;
 		this.gameWindow = ui.gameWindow;
 		this.worldMap = ui.worldMap;
+		selected = 0;
+		currentPlayerNum = 1;
 	}
 
 	public void devide() {
@@ -67,9 +71,6 @@ public class SelectCountries implements ActionListener {
 	public void devideTerritory() {
 		lowerLabel.setText("player1 turn");
 		ui.mouseAdapter = new MouseAdapter() {
-
-			int selected = 0;
-
 			Player currentPlayer;
 
 			@Override
@@ -177,7 +178,10 @@ public class SelectCountries implements ActionListener {
 	}
 
 	public void CPUChoseTerr() {
-		Territory chosen;
-
+		Territory chosen = SelectTerritoryCPU.SelectTerritory(ui, ui.getPlayer(2));
+		selected++;
+		chosen.getContinent().TerrChosen(2);
+		chosen.setPlayer_controling(2);
+		addToSidelist(rightList, chosen, ui.getPlayer(2));
 	}
 }

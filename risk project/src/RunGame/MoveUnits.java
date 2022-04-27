@@ -26,32 +26,34 @@ public class MoveUnits {
 				JOptionPane.QUESTION_MESSAGE);
 		if (result == JOptionPane.YES_OPTION) {
 			JOptionPane.showMessageDialog(null, "Press on the origin territory:");
-			int currentPlayerNum = p.getPlayerNum();
-			ui.mouseAdapter = new MouseAdapter() {
+		} else if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
+			ui.pTurn.TurnEnd();
+		}
 
-				@Override
+		int currentPlayerNum = p.getPlayerNum();
+		ui.mouseAdapter = new MouseAdapter() {
 
-				public void mousePressed(MouseEvent e) {
+			@Override
 
-					int x = e.getX();
-					int y = e.getY();
-					String s;
+			public void mousePressed(MouseEvent e) {
 
-					int rgb = ColorsMatch.getColorAt(ui.mainPanel, new Point(x, y));
-					s = (new Color(rgb, true)).toString();
-					if (ui.worldMap.colorsMatch.ConatinsColor(new Color(rgb))
-							&& ui.worldMap.colorsMatch.getTerritory(new Color(rgb)) != null) {
-						Territory temp = ui.worldMap.colorsMatch.getTerritory(new Color(rgb));
-						if (temp.getPlayer_controling() == currentPlayerNum) {
-							if (temp.getUnitAmount() > 1) {
+				int x = e.getX();
+				int y = e.getY();
+				String s;
 
-								int result = JOptionPane.showConfirmDialog(ui.gameWindow,
-										"Sure you want to select: " + temp.getName(), "validate the chosen country",
-										JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-								if (result == JOptionPane.YES_OPTION) {
-									SelecetedTer(ui, p, temp);
-								}
+				int rgb = ColorsMatch.getColorAt(ui.mainPanel, new Point(x, y));
+				s = (new Color(rgb, true)).toString();
+				if (ui.worldMap.colorsMatch.ConatinsColor(new Color(rgb))
+						&& ui.worldMap.colorsMatch.getTerritory(new Color(rgb)) != null) {
+					Territory temp = ui.worldMap.colorsMatch.getTerritory(new Color(rgb));
+					if (temp.getPlayer_controling() == currentPlayerNum) {
+						if (temp.getUnitAmount() > 1) {
 
+							int result = JOptionPane.showConfirmDialog(ui.gameWindow,
+									"Sure you want to select: " + temp.getName(), "validate the chosen country",
+									JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+							if (result == JOptionPane.YES_OPTION) {
+								SelecetedTer(ui, p, temp);
 							}
 
 							else {
@@ -67,14 +69,12 @@ public class MoveUnits {
 						ui.lowerLabel.setText(s);
 					}
 				}
-
-			};
-			for (int i = 0; i < ui.mainPanel.getMouseListeners().length; i++) {
-				ui.mainPanel.removeMouseListener(ui.mainPanel.getMouseListeners()[i]);
 			}
-			ui.mainPanel.addMouseListener(ui.mouseAdapter);
+		};
+		for (int i = 0; i < ui.mainPanel.getMouseListeners().length; i++) {
+			ui.mainPanel.removeMouseListener(ui.mainPanel.getMouseListeners()[i]);
 		}
-
+		ui.mainPanel.addMouseListener(ui.mouseAdapter);
 	}
 
 	public static void SelecetedTer(UI ui, Player p, Territory ter) {
@@ -84,11 +84,11 @@ public class MoveUnits {
 		ArrayList<Object> possibilities = new ArrayList<>();
 		for (Object t : bordering) {
 
-			if (p.territories_controling.contains(t)) {
+			if (p.territories_controling.contains(t) && !possibilities.contains(t)) {
 				possibilities.add(t);
 				bordering2x = ter.borderingTerritories.toArray();
 				for (Object t2 : bordering2x) {
-					if (p.territories_controling.contains(t2)) {
+					if (p.territories_controling.contains(t2) && !possibilities.contains(t2)) {
 						possibilities.add(t2);
 					}
 				}
@@ -110,9 +110,10 @@ public class MoveUnits {
 			}
 			int moved = JActions.GetNumber(ui, 1, ter.getUnitAmount() - 1, ter, p);
 			ter.subUnits(moved);
-			selected.addUnits(moved);
+			selected.addUnits((double) moved);
 			p.getTerritoryList().updateText(ter);
 			p.getTerritoryList().updateText(selected);
+			ui.pTurn.TurnEnd();
 		}
 	}
 }

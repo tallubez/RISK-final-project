@@ -1,5 +1,8 @@
 package SetUpGame;
 
+import java.util.HashMap;
+
+import CPU.PositionTroops;
 import Utils.JActions;
 import board.Territory;
 import main.Player;
@@ -13,7 +16,20 @@ public class PositionStartingUnits {
 		SetUnitsTo1(ui.getPlayer(1));
 		SetUnitsTo1(ui.getPlayer(2));
 		PositionStratingUnits(ui.getPlayer(1));
-		PositionStratingUnits(ui.getPlayer(2));
+		if (ui.VScomputer) {
+			Player cpu = ui.getPlayer(2);
+			HashMap<Territory, Double> territoryMap = PositionTroops.DefensivePosition(ui, cpu,
+					40 - cpu.amount_controling);
+			for (Territory t : territoryMap.keySet()) {
+				t.addUnits(territoryMap.get(t));
+				cpu.getTerritoryList().updateText(t);
+
+			}
+
+		} else {
+			PositionStratingUnits(ui.getPlayer(2));
+		}
+		ui.RunTurns();
 
 	}
 
@@ -26,7 +42,6 @@ public class PositionStartingUnits {
 	public void PositionStratingUnits(Player p) {
 		int remainig_units = 40 - p.getAmount_controling();
 		JActions.PositionUnits(p, ui, remainig_units);
-		ui.RunTurns();
 	}
 
 }

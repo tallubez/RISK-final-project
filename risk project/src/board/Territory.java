@@ -14,6 +14,20 @@ public class Territory {
 	public HashSet<Territory> borderingTerritories;
 	public WorldMap worldMap;
 
+	public Territory(String name, Continent continent, int reinforcment_amount, int RGB, WorldMap worldMap) {
+		this.worldMap = worldMap;
+		this.name = name;
+		this.continent = continent;
+		continent.AddToTerritorysList(this);
+		this.reinforcement_amount = reinforcment_amount;
+		this.RGB = RGB;
+		worldMap.colorsMatch.setTerritory(RGB, this);
+		unit_anoumt = 0;
+		player_controling = 0;
+		borderingTerritories = new HashSet<>();
+		index = -1;
+	}
+
 	public int getRGB() {
 		return RGB;
 	}
@@ -28,20 +42,6 @@ public class Territory {
 
 	public void setIndex(int index) {
 		this.index = index;
-	}
-
-	public Territory(String name, Continent continent, int reinforcment_amount, int RGB, WorldMap worldMap) {
-		this.worldMap = worldMap;
-		this.name = name;
-		this.continent = continent;
-		continent.AddToTerritorysList(this);
-		this.reinforcement_amount = reinforcment_amount;
-		this.RGB = RGB;
-		worldMap.colorsMatch.setTerritory(RGB, this);
-		unit_anoumt = 0;
-		player_controling = 0;
-		borderingTerritories = new HashSet<>();
-		index = -1;
 	}
 
 	public int getReinforcement_amount() {
@@ -68,8 +68,8 @@ public class Territory {
 		this.unit_anoumt = unit_anoumt;
 	}
 
-	public void addUnits(int add) {
-		this.unit_anoumt += add;
+	public void addUnits(Double double1) {
+		this.unit_anoumt += double1;
 	}
 
 	public void subUnits(int sub) {
@@ -94,7 +94,7 @@ public class Territory {
 
 	@Override
 	public String toString() {
-		return name + ", units: " + unit_anoumt + " i: " + index;
+		return name + ", units: " + unit_anoumt;
 	}
 
 }

@@ -1,5 +1,6 @@
 package CPU;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import board.Continent;
@@ -13,18 +14,38 @@ public class PositionTroops {
 
 	}
 
-	public static void DefensivePosition(UI ui, Player cpu, int amount) {
+	public static HashMap<Territory, Double> DefensivePosition(UI ui, Player cpu, int amount) {
 		HashMap<Territory, Double> territroyMap = new HashMap<>();
 		double sum = 0;
-		for (Territory t : territroyMap.keySet()) {
-			territroyMap.put(t, territroyMap.get(t) / sum);
-
+		double temp;
+		double left = amount;
+		ArrayList<Object> tempList;
+		for (Territory t : cpu.territories_controling) {
+			tempList = CalcTerritoryImportance(ui, cpu, t, territroyMap, sum);
+			territroyMap = (HashMap<Territory, Double>) tempList.get(0);
+			sum = (double) tempList.get(1);
 		}
+		for (Territory t : cpu.territories_controling) {
+			temp = Math.floor((territroyMap.get(t) / sum) * amount);
+			territroyMap.remove(t);
+			territroyMap.put(t, temp);
+			left -= temp;
+		}
+		for (Territory t : cpu.territories_controling) {
+			if (left > 0) {
+				temp = territroyMap.get(t);
+				territroyMap.remove(t);
+				territroyMap.put(t, temp + 1);
+				left--;
+			}
+		}
+		return territroyMap;
 
 	}
 
-	public static double CalcTerritoryImportance(UI ui, Player cpu, Territory territory,
+	public static ArrayList<Object> CalcTerritoryImportance(UI ui, Player cpu, Territory territory,
 			HashMap<Territory, Double> territoryMap, double sum) {
+		ArrayList<Object> list = new ArrayList<>(); // list[0] = hashmap, list[1] = sum
 		double amountInTerritory = territory.getUnitAmount();
 		double enemyAmount = 0;
 		double grade;
@@ -39,8 +60,10 @@ public class PositionTroops {
 			territoryMap.put(territory, grade);
 			sum += grade;
 		}
-		return sum;
-
+		territoryMap.put(territory, grade);
+		list.add(territoryMap);
+		list.add(sum);
+		return list;
 	}
 
 	public static double CalcValueNow(UI ui, Player cpu, Territory territory) {

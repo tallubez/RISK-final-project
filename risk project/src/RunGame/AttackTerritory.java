@@ -115,8 +115,12 @@ public class AttackTerritory implements ActionListener {
 					+ ". attacker lost " + lost[0] + " Units");
 		} else {
 
-			attLabel.setText(
-					attOutput + attRes.get(0) + " ," + attRes.get(1) + ". attacker lost " + lost[0] + " Units");
+			if (attUnits == 2) {
+				attLabel.setText(
+						attOutput + attRes.get(0) + " ," + attRes.get(1) + ". attacker lost " + lost[0] + " Units");
+			} else {
+				attLabel.setText(attOutput + attRes.get(0) + ". attacker lost " + lost[0] + " Units");
+			}
 		}
 		if (defUnits == 2) {
 			defLabel.setText(
