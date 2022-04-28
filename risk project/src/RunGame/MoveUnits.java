@@ -26,55 +26,55 @@ public class MoveUnits {
 				JOptionPane.QUESTION_MESSAGE);
 		if (result == JOptionPane.YES_OPTION) {
 			JOptionPane.showMessageDialog(null, "Press on the origin territory:");
-		} else if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
-			ui.pTurn.TurnEnd();
-		}
 
-		int currentPlayerNum = p.getPlayerNum();
-		ui.mouseAdapter = new MouseAdapter() {
+			int currentPlayerNum = p.getPlayerNum();
+			ui.mouseAdapter = new MouseAdapter() {
 
-			@Override
+				@Override
 
-			public void mousePressed(MouseEvent e) {
+				public void mousePressed(MouseEvent e) {
 
-				int x = e.getX();
-				int y = e.getY();
-				String s;
+					int x = e.getX();
+					int y = e.getY();
+					String s;
 
-				int rgb = ColorsMatch.getColorAt(ui.mainPanel, new Point(x, y));
-				s = (new Color(rgb, true)).toString();
-				if (ui.worldMap.colorsMatch.ConatinsColor(new Color(rgb))
-						&& ui.worldMap.colorsMatch.getTerritory(new Color(rgb)) != null) {
-					Territory temp = ui.worldMap.colorsMatch.getTerritory(new Color(rgb));
-					if (temp.getPlayer_controling() == currentPlayerNum) {
-						if (temp.getUnitAmount() > 1) {
+					int rgb = ColorsMatch.getColorAt(ui.mainPanel, new Point(x, y));
+					s = (new Color(rgb, true)).toString();
+					if (ui.worldMap.colorsMatch.ConatinsColor(new Color(rgb))
+							&& ui.worldMap.colorsMatch.getTerritory(new Color(rgb)) != null) {
+						Territory temp = ui.worldMap.colorsMatch.getTerritory(new Color(rgb));
+						if (temp.getPlayer_controling() == currentPlayerNum) {
+							if (temp.getUnitAmount() > 1) {
 
-							int result = JOptionPane.showConfirmDialog(ui.gameWindow,
-									"Sure you want to select: " + temp.getName(), "validate the chosen country",
-									JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-							if (result == JOptionPane.YES_OPTION) {
-								SelecetedTer(ui, p, temp);
-							}
+								int result = JOptionPane.showConfirmDialog(ui.gameWindow,
+										"Sure you want to select: " + temp.getName(), "validate the chosen country",
+										JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+								if (result == JOptionPane.YES_OPTION) {
+									SelecetedTer(ui, p, temp);
+								}
 
-							else {
-								ui.lowerLabel
-										.setText("Can't attack from " + temp + ". min 2 units in a territory for move");
+								else {
+									ui.lowerLabel.setText(
+											"Can't attack from " + temp + ". min 2 units in a territory for move");
+								}
+							} else {
+								ui.lowerLabel.setText("you don't control " + temp.getName());
+
 							}
 						} else {
-							ui.lowerLabel.setText("you don't control " + temp.getName());
-
+							s = String.valueOf(rgb);
+							ui.lowerLabel.setText(s);
 						}
-					} else {
-						s = String.valueOf(rgb);
-						ui.lowerLabel.setText(s);
 					}
 				}
+			};
+			for (int i = 0; i < ui.mainPanel.getMouseListeners().length; i++) {
+				ui.mainPanel.removeMouseListener(ui.mainPanel.getMouseListeners()[i]);
 			}
-		};
-		for (int i = 0; i < ui.mainPanel.getMouseListeners().length; i++) {
-			ui.mainPanel.removeMouseListener(ui.mainPanel.getMouseListeners()[i]);
+			ui.mainPanel.addMouseListener(ui.mouseAdapter);
+		} else {
+			ui.pTurn.TurnEnd();
 		}
-		ui.mainPanel.addMouseListener(ui.mouseAdapter);
 	}
 
 	public static void SelecetedTer(UI ui, Player p, Territory ter) {

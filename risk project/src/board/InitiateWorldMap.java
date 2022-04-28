@@ -97,6 +97,19 @@ public class InitiateWorldMap {
 		Territory southAfrica = new Territory("SouthAfrica", Africa, 6, -8372224, worldMap);
 		Territory centralAfrica = new Territory("CentalAfrica", Africa, 1, -5221116, worldMap);
 		Territory madagascar = new Territory("Madagascar", Africa, 4, -16269, worldMap);
+		setBorder(westAfrica, brasil);
+		setBorder(westAfrica, westEurope);
+		setBorder(westAfrica, southEurope);
+		setBorder(westAfrica, northAfrica);
+		setBorder(westAfrica, eastAfrica);
+		setBorder(westAfrica, centralAfrica);
+		setBorder(northAfrica, southEurope);
+		setBorder(northAfrica, eastAfrica);
+		setBorder(eastAfrica, centralAfrica);
+		setBorder(eastAfrica, madagascar);
+		setBorder(eastAfrica, southAfrica);
+		setBorder(southAfrica, centralAfrica);
+		setBorder(southAfrica, madagascar);
 		// Asia
 		Territory middleEast = new Territory("MiddleEast", Asia, 7, -16619008, worldMap);
 		Territory india = new Territory("India", Asia, 3, -16744319, worldMap);

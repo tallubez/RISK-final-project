@@ -12,6 +12,7 @@ import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 import CPU.Attack;
+import CPU.MoveUnitsCpu;
 import CPU.PositionTroops;
 import Utils.ColorsMatch;
 import board.Territory;
@@ -67,10 +68,11 @@ public class PlayTurn implements ActionListener {
 			}
 
 		};
-		if (ui.mainPanel.getMouseListeners().length == 0) {
-
-			ui.mainPanel.addMouseListener(ui.mouseAdapter);
+		for (int i = 0; i < ui.mainPanel.getMouseListeners().length; i++) {
+			ui.mainPanel.removeMouseListener(ui.mainPanel.getMouseListeners()[i]);
 		}
+
+		ui.mainPanel.addMouseListener(ui.mouseAdapter);
 
 	}
 
@@ -94,32 +96,35 @@ public class PlayTurn implements ActionListener {
 			ui.lowerLabel.setText("player" + currentPlayerNum + " turn");
 			initMouseListener();
 		} else {
-			JOptionPane.showMessageDialog(null, "computer turn");
-			cpuAttackTerritory();
+			cpuTurn();
 
 		}
 
 	}
 
-	public void cpuAttackTerritory() {
+	public void cpuTurn() {
 		Player cpu = ui.getPlayer(2);
 		int reinforcementAmount = Reinforcement.CalcReinforcement(cpu, ui);
-		HashMap<Territory, Double> territoryMap = PositionTroops.DefensivePosition(ui, cpu, reinforcementAmount);
+		JOptionPane.showMessageDialog(null, "computer turn, got reinforcement of " + reinforcementAmount);
+		HashMap<Territory, Double> territoryMap = PositionTroops.PositionUnits(ui, cpu, reinforcementAmount);
 		for (Territory t : territoryMap.keySet()) {
 			t.addUnits(territoryMap.get(t));
 			cpu.getTerritoryList().updateText(t);
-
 		}
+		cpuAttackTerritory();
+	}
+
+	public void cpuAttackTerritory() {
 		Player attacker = ui.getPlayer(2);
 		Player deffender = ui.getPlayer(1);
 		AttackTerritory aTerritory = new AttackTerritory(ui);
 		int attUnits, defUnits;
-		defTerritory = Attack.DecideWhoToAttack(ui, cpu);
-		if (defTerritory == null) {
-			JOptionPane.showMessageDialog(null, "the cpu has decided to end the turn");
-		}
-		while (defTerritory != null) {
+		defTerritory = Attack.DecideWhoToAttack(ui, attacker);
+		if (defTerritory != null) {
 			attTerritory = Attack.AttackOrigin(ui, attacker, defTerritory);
+			if (attTerritory == null) {
+				cpuEndTurn();
+			}
 			if (defTerritory.getUnitAmount() >= 2) {
 				defUnits = 2;
 			} else {
@@ -132,9 +137,17 @@ public class PlayTurn implements ActionListener {
 			}
 			JOptionPane.showMessageDialog(null, "computer attacks " + defTerritory + " from " + attTerritory);
 			aTerritory.Attack(attacker, deffender, attUnits, defUnits, attTerritory, defTerritory);
-			defTerritory = Attack.DecideWhoToAttack(ui, ui.getPlayer(2));
+		} else {
+			cpuEndTurn();
 		}
+	}
 
+	public void cpuEndTurn() {
+		JOptionPane.showMessageDialog(null, "the cpu has decided to end the turn");
+		MoveUnitsCpu.moveEndOfTurn(ui, ui.getPlayer(2));
+		Reinforcement.PositionReinforcementUnits(ui.getPlayer(currentPlayerNum), ui);
+		ui.lowerLabel.setText("player" + currentPlayerNum + " turn");
+		initMouseListener();
 	}
 
 	public void SelectTerritoryToAttack() {

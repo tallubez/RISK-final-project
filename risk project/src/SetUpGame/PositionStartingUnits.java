@@ -18,8 +18,7 @@ public class PositionStartingUnits {
 		PositionStratingUnits(ui.getPlayer(1));
 		if (ui.VScomputer) {
 			Player cpu = ui.getPlayer(2);
-			HashMap<Territory, Double> territoryMap = PositionTroops.DefensivePosition(ui, cpu,
-					40 - cpu.amount_controling);
+			HashMap<Territory, Double> territoryMap = PositionTroops.PositionUnits(ui, cpu, 40 - cpu.amount_controling);
 			for (Territory t : territoryMap.keySet()) {
 				t.addUnits(territoryMap.get(t));
 				cpu.getTerritoryList().updateText(t);

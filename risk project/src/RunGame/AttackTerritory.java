@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import CPU.MoveUnitsCpu;
 import Utils.GenerateFrameService;
 import board.Territory;
 import main.Player;
@@ -139,6 +140,9 @@ public class AttackTerritory implements ActionListener {
 			ui.gameWindow.dispose();
 		}
 		attackWindow.dispose();
+		if (ui.VScomputer) {
+			ui.pTurn.cpuAttackTerritory();
+		}
 
 	}
 
@@ -155,17 +159,27 @@ public class AttackTerritory implements ActionListener {
 		String temp;
 		int remUnits = attTerritory.getUnitAmount() - 1;
 		if (remUnits > 0) {
-			temp = (String) JOptionPane.showInputDialog(ui.gameWindow,
-					"enter number of units to add from " + attTerritory.getName() + " to " + defTerritory.getName(),
-					"player " + attacker.getPlayerNum() + " move units", JOptionPane.INFORMATION_MESSAGE, null, null,
-					"enter a number between 0 and " + remUnits);
-			while (temp == null || !temp.matches("[0-9]+") || Integer.parseInt(temp) < 0
-					|| Integer.parseInt(temp) > attTerritory.getUnitAmount()) {
+			double unitsMoved = 0;
+			if (ui.VScomputer) {
+				unitsMoved = MoveUnitsCpu.MoveAfterConq(ui, attTerritory, defTerritory);
+
+			} else {
 				temp = (String) JOptionPane.showInputDialog(ui.gameWindow,
 						"enter number of units to add from " + attTerritory.getName() + " to " + defTerritory.getName(),
-						null, JOptionPane.INFORMATION_MESSAGE, null, null, "enter anumber between 0 and " + remUnits);
+						"player " + attacker.getPlayerNum() + " move units", JOptionPane.INFORMATION_MESSAGE, null,
+						null, "enter a number between 0 and " + remUnits);
+				while (temp == null || !temp.matches("[0-9]+") || Integer.parseInt(temp) < 0
+						|| Integer.parseInt(temp) > attTerritory.getUnitAmount()) {
+					temp = (String) JOptionPane.showInputDialog(ui.gameWindow,
+							"enter number of units to add from " + attTerritory.getName() + " to "
+									+ defTerritory.getName(),
+							null, JOptionPane.INFORMATION_MESSAGE, null, null,
+							"enter anumber between 0 and " + remUnits);
+				}
+				unitsMoved = Double.parseDouble(temp);
 			}
-
+			attTerritory.subUnits(unitsMoved);
+			defTerritory.addUnits(unitsMoved);
 		}
 		attacker.getTerritoryList().updateText(defTerritory);
 		attacker.getTerritoryList().updateText(attTerritory);

@@ -72,8 +72,8 @@ public class Territory {
 		this.unit_anoumt += double1;
 	}
 
-	public void subUnits(int sub) {
-		this.unit_anoumt -= sub;
+	public void subUnits(double unitsMoved) {
+		this.unit_anoumt -= unitsMoved;
 	}
 
 	public String getName() {
