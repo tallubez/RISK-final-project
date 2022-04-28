@@ -78,29 +78,14 @@ public class MoveUnits {
 	}
 
 	public static void SelecetedTer(UI ui, Player p, Territory ter) {
-
-		Object[] bordering = ter.borderingTerritories.toArray();
-		Object[] bordering2x;
-		ArrayList<Object> possibilities = new ArrayList<>();
-		for (Object t : bordering) {
-
-			if (p.territories_controling.contains(t) && !possibilities.contains(t)) {
-				possibilities.add(t);
-				bordering2x = ter.borderingTerritories.toArray();
-				for (Object t2 : bordering2x) {
-					if (p.territories_controling.contains(t2) && !possibilities.contains(t2)) {
-						possibilities.add(t2);
-					}
-				}
-			}
-
+		ArrayList<Territory> possibilities = new ArrayList<>();
+		GetTerritorysConected(ui, p, ter, possibilities);
+		if (possibilities.contains(ter)) {
+			possibilities.remove(ter);
 		}
-		if (possibilities.size() == 0)
-
-		{
+		if (possibilities.size() == 0) {
 			JOptionPane.showMessageDialog(null,
 					"Territory does not have any territory bordering.\n select different territory");
-
 		} else {
 			Territory selected = (Territory) JOptionPane.showInputDialog(ui.gameWindow, "select destination",
 					"who to attack", JOptionPane.PLAIN_MESSAGE, null, possibilities.toArray(), "hey");
@@ -114,6 +99,17 @@ public class MoveUnits {
 			p.getTerritoryList().updateText(ter);
 			p.getTerritoryList().updateText(selected);
 			ui.pTurn.TurnEnd();
+		}
+	}
+
+	public static void GetTerritorysConected(UI ui, Player p, Territory ter, ArrayList<Territory> visited) {
+		for (Territory t : ter.borderingTerritories) {
+			if (t.getPlayer_controling() == p.getPlayerNum()) {
+				if (!visited.contains(t)) {
+					visited.add(t);
+					GetTerritorysConected(ui, p, t, visited);
+				}
+			}
 		}
 	}
 }

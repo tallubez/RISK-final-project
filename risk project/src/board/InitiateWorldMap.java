@@ -122,6 +122,7 @@ public class InitiateWorldMap {
 		Territory EastRussia = new Territory("EastRussia", Asia, 6, -16744384, worldMap);
 		Territory japan = new Territory("Japan", Asia, 5, -8126969, worldMap);
 		Territory siberia = new Territory("Siberia", Asia, 10, -16737024, worldMap);
+		Territory mongolia = new Territory("Mongolia", Asia, 4, -8126974, worldMap);
 		// Australia
 		Territory indonesia = new Territory("Indonesia", Australia, 2, -8453889, worldMap);
 		Territory newGuinea = new Territory("NewGuinea", Australia, 3, -130561, worldMap);

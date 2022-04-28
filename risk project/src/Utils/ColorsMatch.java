@@ -14,7 +14,7 @@ import board.WorldMap;
 public class ColorsMatch {
 	public HashMap<Color, Territory> colorToTerritoryMap;
 	public WorldMap worldMap;
-	private int d = 25;
+	private int d = 4;
 
 	public ColorsMatch() {
 		colorToTerritoryMap = new HashMap<>();

@@ -1,7 +1,10 @@
 package CPU;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
+import RunGame.MoveUnits;
 import board.Territory;
 import main.Player;
 import main.UI;
@@ -40,16 +43,18 @@ public class MoveUnitsCpu {
 	public static void moveEndOfTurn(UI ui, Player cpu) {
 		Territory dest = null, org = null;
 		double maxMovement = 0, temp;
+		ArrayList<Territory> possibilities = new ArrayList<>();
 		for (Territory t : cpu.territories_controling) {
-			for (Territory t_n : t.borderingTerritories) {
-				if (t_n.getPlayer_controling() == cpu.getPlayerNum()) {
-					temp = MoveAfterConq(ui, t_n, t);
-					if (temp > maxMovement) {
-						maxMovement = temp;
-						org = t_n;
-						dest = t;
-					}
+			possibilities.clear();
+			MoveUnits.GetTerritorysConected(ui, cpu, t, possibilities);
+			for (Territory t_n : possibilities) {
+				temp = MoveAfterConq(ui, t, t_n);
+				if (temp > maxMovement) {
+					maxMovement = temp;
+					org = t;
+					dest = t_n;
 				}
+
 			}
 		}
 		if (maxMovement > 0) {
