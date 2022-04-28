@@ -162,12 +162,12 @@ public class Attack {
 		}
 		case 2: {
 			if (def == 1) {
-				value[0] = 0.7454;
-				value[1] = 0.2546;
+				value[0] = 0.4213;
+				value[1] = 0.5787;
 
 			} else {
-				value[0] = 2 * 0.4483 + 32.41;
-				value[1] = 2 * 0.2276 + 32.41;
+				value[0] = 2 * 0.4483 + 0.3241;
+				value[1] = 2 * 0.2276 + 0.3241;
 			}
 			break;
 
