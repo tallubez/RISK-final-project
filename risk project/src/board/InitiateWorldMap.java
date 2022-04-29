@@ -72,7 +72,7 @@ public class InitiateWorldMap {
 		Territory iceland = new Territory("Iceland", Europe, 2, -3620889, worldMap);
 		Territory britain = new Territory("Britain", Europe, 1, -5188649, worldMap);
 		Territory norway = new Territory("Norway", Europe, 4, -5384193, worldMap);
-		Territory westEurope = new Territory("WestEurope", Europe, 7, -16482561, worldMap);
+		Territory westEurope = new Territory("WestEurope", Europe, 7, -16744193, worldMap);
 		Territory germany = new Territory("Germany", Europe, 3, -16776962, worldMap);
 		Territory southEurope = new Territory("SouthEurope", Europe, 6, -7760385, worldMap);
 		Territory eastEurope = new Territory("EastEurope", Europe, 6, -16772991, worldMap);

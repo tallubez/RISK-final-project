@@ -18,21 +18,22 @@ public class MoveUnitsCpu {
 	public static double MoveAfterConq(UI ui, Territory org, Territory dest) {
 		double orgOptimizeUnits, destOptimizeUnits;
 		double maxMovement = org.getUnitAmount() - 1;
+		double totalUnits = org.getUnitAmount() + dest.getUnitAmount();
 		if (maxMovement == 0) {
 			return 0;
 		}
-		double orgEnemy = Attack.GetEnemyBordering(org, null);
-		if (orgEnemy == 0) {
+		double orgValue = PositionTroops.CalcTerritoryImportanceDefensive(ui, ui.getPlayer(2), org, null, 0);
+		if (orgValue == 0) {
 			return maxMovement;
 		}
-		double destEnemy = Attack.GetEnemyBordering(dest, null);
-		if (destEnemy == 0) {
+		double destValue = PositionTroops.CalcTerritoryImportanceDefensive(ui, ui.getPlayer(2), dest, null, 0);
+		if (destValue == 0) {
 			return 0;
 		}
-		double totalUnits = org.getUnitAmount() + dest.getUnitAmount();
-		orgEnemy = orgEnemy / (orgEnemy + destEnemy);
-		destEnemy = destEnemy / (orgEnemy + destEnemy);
-		orgOptimizeUnits = Math.floor(totalUnits * orgEnemy);
+		double totalvalue = orgValue + destValue;
+		orgValue = orgValue / (totalvalue);
+		destValue = destValue / (totalvalue);
+		orgOptimizeUnits = Math.floor(orgValue * totalUnits);
 		destOptimizeUnits = totalUnits - orgOptimizeUnits;
 		if (destOptimizeUnits <= dest.getUnitAmount()) {
 			return 0;
