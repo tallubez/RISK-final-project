@@ -114,10 +114,11 @@ public class PositionTroops {
 		grade = enemyAmount / amountInTerritory;
 		if (grade > 0) {
 			grade = grade * (CalcValueLost(ui, cpu, territory) + CalcValueNow(ui, cpu, territory));
-			territoryMap.put(territory, grade);
 			sum += grade;
 		}
-		territoryMap.put(territory, grade);
+		if(territoryMap!=null) {
+			territoryMap.put(territory, grade);
+		}
 		return sum;
 	}
 

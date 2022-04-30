@@ -35,17 +35,9 @@ public class Attack {
 		if (conqRes < 0) {
 			return 0;
 		}
-		if (conqRes >= 3) {
-			UnitsMoves = 3;
-		} else {
-			UnitsMoves = conqRes;
-		}
-		if (HowHardWillItBeToKeep(ui, t, cpu, UnitsMoves)[0] > 0) {
-			// return 0;
-		}
 		double value = valueOfconquer(ui, t, cpu);
 		value += conqRes;
-		// value -= HowHardWillItBeToKeep(ui, t, cpu, UnitsMoves)[0];
+		value -= HowHardWillItBeToKeep(ui, t, cpu);
 		return value;
 
 	}
@@ -92,7 +84,7 @@ public class Attack {
 		if (amountOfEnemyTersInCont == 0) {
 			totalValue = c.getValue();
 		} else {
-			totalValue = c.getValue() * (amountOfUnitsClose / amountOfUnitsClose);
+			totalValue = c.getValue() * (amountOfUnitsClose / amountOfEnemyUnitsInCont);
 		}
 		// does it stops opponent from conquering a continent
 		if (c.getPlayer_controling() != cpu.getPlayerNum() && c.getPlayer_controling() != -1) {
@@ -101,27 +93,19 @@ public class Attack {
 		return totalValue;
 	}
 
-	public static double[] HowHardWillItBeToKeep(UI ui, Territory t, Player cpu, double unitsInT) {
-		double[] howHardToKeep = new double[2];
-		double enemyUnitsBordering = GetEnemyBordering(t, null);
-		howHardToKeep[0] = calcConquerOdds(enemyUnitsBordering, unitsInT);
-		howHardToKeep[1] = calcConquerOdds(enemyUnitsBordering, unitsInT + getMaxMovement(ui, t, cpu));
+	public static double HowHardWillItBeToKeep(UI ui, Territory t, Player cpu) {
+		double howHardToKeep;
+		double enemyUnitsBordering =0;
+		for (Territory temp : t.borderingTerritories) {
+			if (temp.getPlayer_controling() != cpu.getPlayerNum()) {
+				 enemyUnitsBordering += (temp.getUnitAmount() - 1);
+			}
+		}
+		howHardToKeep = enemyUnitsBordering/5;
 		return howHardToKeep;
 
 	}
 
-	public static double getMaxMovement(UI ui, Territory t, Player cpu) {
-		double max = 0;
-		for (Territory temp : t.borderingTerritories) {
-			if (temp.getPlayer_controling() == cpu.getPlayerNum()) {
-				;
-				if (temp.getUnitAmount() - 1 > max && GetEnemyBordering(temp, t) != 0) {
-					max = temp.getUnitAmount() - 1;
-				}
-			}
-		}
-		return max;
-	}
 
 	public static int GetEnemyBordering(Territory t, Territory notToInclude) {
 		int enemyUnitsBordering = 0;

@@ -117,18 +117,54 @@ public class InitiateWorldMap {
 		Territory southChina = new Territory("SouthChina", Asia, 2, -13535970, worldMap);
 		Territory northChina = new Territory("NorthChina", Asia, 8, -16761856, worldMap);
 		Territory afaganistan = new Territory("Afganistan", Asia, 1, -4390982, worldMap);
-		Territory Oral = new Territory("Oral", Asia, 11, -16755967, worldMap);
+		Territory oral = new Territory("Oral", Asia, 11, -16755967, worldMap);
 		Territory yakutsk = new Territory("Yakutsk", Asia, 12, -16724322, worldMap);
-		Territory EastRussia = new Territory("EastRussia", Asia, 6, -16744384, worldMap);
+		Territory eastRussia = new Territory("EastRussia", Asia, 6, -16744384, worldMap);
 		Territory japan = new Territory("Japan", Asia, 5, -8126969, worldMap);
 		Territory siberia = new Territory("Siberia", Asia, 10, -16737024, worldMap);
 		Territory mongolia = new Territory("Mongolia", Asia, 4, -8126974, worldMap);
+		setBorder(middleEast, northAfrica);
+		setBorder(middleEast, eastAfrica);
+		setBorder(middleEast, southEurope);
+		setBorder(middleEast, eastEurope);
+		setBorder(middleEast, india);
+		setBorder(middleEast, afaganistan);
+		setBorder(india, afaganistan);
+		setBorder(india, southChina);
+		setBorder(india, viatnam);
+		setBorder(afaganistan, eastEurope);
+		setBorder(afaganistan, oral);
+		setBorder(afaganistan, southChina);
+		setBorder(oral, eastEurope);
+		setBorder(oral, siberia);
+		setBorder(oral, southChina);
+		setBorder(siberia, southChina);
+		setBorder(siberia, yakutsk);
+		setBorder(siberia, mongolia);
+		setBorder(siberia, northChina);
+		setBorder(southChina, viatnam);
+		setBorder(southChina, northChina);
+		setBorder(northChina, japan);
+		setBorder(northChina, mongolia);
+		setBorder(northChina, eastRussia);
+		setBorder(mongolia, yakutsk);
+		setBorder(mongolia, eastRussia);
+		setBorder(eastRussia, japan);
+		setBorder(eastRussia, alaska);
+		
 		// Australia
 		Territory indonesia = new Territory("Indonesia", Australia, 2, -8453889, worldMap);
 		Territory newGuinea = new Territory("NewGuinea", Australia, 3, -130561, worldMap);
 		Territory WestAustralia = new Territory("WestAustralia", Australia, 4, -8323008, worldMap);
 		Territory EastAustralia = new Territory("EastAustralia", Australia, 1, -12582849, worldMap);
-
+		setBorder(indonesia, viatnam);
+		setBorder(indonesia, WestAustralia);
+		setBorder(indonesia, newGuinea);
+		setBorder(newGuinea, EastAustralia);
+		setBorder(newGuinea, WestAustralia);
+		setBorder(WestAustralia, EastAustralia);
+		
+		
 	}
 
 	public void setBorder(Territory t1, Territory t2) {
