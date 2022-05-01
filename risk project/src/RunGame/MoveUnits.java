@@ -20,6 +20,12 @@ public class MoveUnits {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * move units in the end of a turn
+	 * 
+	 * @param ui
+	 * @param p  player moving
+	 */
 	public static void MoveUnit(UI ui, Player p) {
 		int result = JOptionPane.showConfirmDialog(ui.gameWindow,
 				"player " + p.getPlayerNum() + " Do you want to move units?", "", JOptionPane.YES_NO_OPTION,
@@ -77,6 +83,13 @@ public class MoveUnits {
 		}
 	}
 
+	/**
+	 * manage when player selects territory
+	 * 
+	 * @param ui
+	 * @param p   player
+	 * @param ter territory selected
+	 */
 	public static void SelecetedTer(UI ui, Player p, Territory ter) {
 		ArrayList<Territory> possibilities = new ArrayList<>();
 		GetTerritorysConected(ui, p, ter, possibilities);
@@ -102,6 +115,14 @@ public class MoveUnits {
 		}
 	}
 
+	/**
+	 * get all the connected territorys to a territory
+	 * 
+	 * @param ui
+	 * @param p       player
+	 * @param ter     territorys
+	 * @param visited territorys visited
+	 */
 	public static void GetTerritorysConected(UI ui, Player p, Territory ter, ArrayList<Territory> visited) {
 		for (Territory t : ter.borderingTerritories) {
 			if (t.getPlayer_controling() == p.getPlayerNum()) {

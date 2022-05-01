@@ -31,6 +31,9 @@ public class PlayTurn implements ActionListener {
 		currentPlayerNum = 1;
 	}
 
+	/**
+	 * create the mouse listener used to run the turns
+	 */
 	public void initMouseListener() {
 		ui.lowerLabel.setText("player" + currentPlayerNum + " turn");
 		ui.mouseAdapter = new MouseAdapter() {
@@ -76,11 +79,17 @@ public class PlayTurn implements ActionListener {
 
 	}
 
+	/**
+	 * finish turn
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		MoveUnits.MoveUnit(ui, ui.getPlayer(currentPlayerNum));
 	}
 
+	/**
+	 * manage the end of a turn
+	 */
 	public void TurnEnd() {
 		if (!ui.VScomputer) {
 			turnAmount[currentPlayerNum - 1]++;
@@ -102,25 +111,30 @@ public class PlayTurn implements ActionListener {
 
 	}
 
+	/**
+	 * manage ai player turn
+	 */
 	public void cpuTurn() {
 		Player cpu = ui.getPlayer(2);
-		if(turnAmount[1] == 0) {
+		if (turnAmount[1] == 0) {
 			turnAmount[1]++;
 			JOptionPane.showMessageDialog(null, "computer turn");
-		}
-		else {
-		int reinforcementAmount = Reinforcement.CalcReinforcement(cpu, ui);
-		JOptionPane.showMessageDialog(null, "computer turn, got reinforcement of " + reinforcementAmount);
-		
-		HashMap<Territory, Double> territoryMap = PositionTroops.PositionUnits(ui, cpu, reinforcementAmount);
-		for (Territory t : territoryMap.keySet()) {
-			t.addUnits(territoryMap.get(t));
-			cpu.getTerritoryList().updateText(t);
+		} else {
+			int reinforcementAmount = Reinforcement.CalcReinforcement(cpu, ui);
+			JOptionPane.showMessageDialog(null, "computer turn, got reinforcement of " + reinforcementAmount);
+
+			HashMap<Territory, Double> territoryMap = PositionTroops.PositionUnits(ui, cpu, reinforcementAmount);
+			for (Territory t : territoryMap.keySet()) {
+				t.addUnits(territoryMap.get(t));
+				cpu.getTerritoryList().updateText(t);
 			}
 		}
 		cpuAttackTerritory();
 	}
 
+	/**
+	 * manage the ai player attacks
+	 */
 	public void cpuAttackTerritory() {
 		Player attacker = ui.getPlayer(2);
 		Player deffender = ui.getPlayer(1);
@@ -149,6 +163,9 @@ public class PlayTurn implements ActionListener {
 		}
 	}
 
+	/**
+	 * manage the end of ai player turn
+	 */
 	public void cpuEndTurn() {
 		JOptionPane.showMessageDialog(null, "the cpu has decided to end the turn");
 		MoveUnitsCpu.moveEndOfTurn(ui, ui.getPlayer(2));
@@ -157,6 +174,9 @@ public class PlayTurn implements ActionListener {
 		initMouseListener();
 	}
 
+	/**
+	 * manage when territory is selected to attack from
+	 */
 	public void SelectTerritoryToAttack() {
 		Object[] bordering = attTerritory.borderingTerritories.toArray();
 		Player attacker = ui.getPlayer(currentPlayerNum);
@@ -176,28 +196,27 @@ public class PlayTurn implements ActionListener {
 					"who to attack", JOptionPane.PLAIN_MESSAGE, null, possibilities.toArray(), "hey");
 
 			Player deffender;
-			if(defTerritory==null) {
-				JOptionPane.showMessageDialog(null,"you need to select territory to attack if you want to attack...");
-			}
-			else {
-			if (currentPlayerNum == 1) {
-				deffender = ui.getPlayer(2);
+			if (defTerritory == null) {
+				JOptionPane.showMessageDialog(null, "you need to select territory to attack if you want to attack...");
 			} else {
-				deffender = ui.getPlayer(1);
-			}
-			int attUnits, defUnits;
-			if (attTerritory.getUnitAmount() >= 4) {
-				attUnits = 3;
-			} else {
-				attUnits = attTerritory.getUnitAmount() - 1;
-			}
-			if (defTerritory.getUnitAmount() >= 2) {
-				defUnits = 2;
-			} else {
-				defUnits = 1;
-			}
-			AttackTerritory aTerritory = new AttackTerritory(ui);
-			aTerritory.Attack(attacker, deffender, attUnits, defUnits, attTerritory, defTerritory);
+				if (currentPlayerNum == 1) {
+					deffender = ui.getPlayer(2);
+				} else {
+					deffender = ui.getPlayer(1);
+				}
+				int attUnits, defUnits;
+				if (attTerritory.getUnitAmount() >= 4) {
+					attUnits = 3;
+				} else {
+					attUnits = attTerritory.getUnitAmount() - 1;
+				}
+				if (defTerritory.getUnitAmount() >= 2) {
+					defUnits = 2;
+				} else {
+					defUnits = 1;
+				}
+				AttackTerritory aTerritory = new AttackTerritory(ui);
+				aTerritory.Attack(attacker, deffender, attUnits, defUnits, attTerritory, defTerritory);
 			}
 		}
 	}

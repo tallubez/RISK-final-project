@@ -12,6 +12,13 @@ public class JActions {
 
 	}
 
+	/**
+	 * position units in territories
+	 * 
+	 * @param p          player
+	 * @param ui
+	 * @param unitAmount
+	 */
 	public static void PositionUnits(Player p, UI ui, int unitAmount) {
 		while (unitAmount > 0) {
 
@@ -31,6 +38,16 @@ public class JActions {
 		}
 	}
 
+	/**
+	 * get a number from user to add to t
+	 * 
+	 * @param ui
+	 * @param min
+	 * @param max
+	 * @param t   territory
+	 * @param p   player
+	 * @return number entered
+	 */
 	public static int GetNumber(UI ui, int min, int max, Territory t, Player p) {
 		String temp = (String) JOptionPane.showInputDialog(ui.gameWindow,
 				"enter number of units to add for " + t.getName(), "player " + p.getPlayerNum() + " Position units",

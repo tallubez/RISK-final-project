@@ -13,6 +13,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GenerateFrameService {
+	/**
+	 * create the window
+	 * 
+	 * @param Window jframe
+	 * @param width
+	 * @param height
+	 */
 	public static void createWindow(JFrame Window, int width, int height) {
 		if (height == -1) {
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -28,6 +35,15 @@ public class GenerateFrameService {
 
 	}
 
+	/**
+	 * 
+	 * @param panel
+	 * @param gameWindow
+	 * @param start_x    x position top left corner
+	 * @param start_y    y position top left corner
+	 * @param x          width
+	 * @param y          height
+	 */
 	public static void setGameWindow(JPanel panel, JFrame gameWindow, int start_x, int start_y, int x, int y) {
 		panel.setBounds(start_x, start_y, x, y);
 		panel.setBackground(null);
@@ -35,6 +51,17 @@ public class GenerateFrameService {
 		gameWindow.add(panel);
 	}
 
+	/**
+	 * create the picture background
+	 * 
+	 * @param label
+	 * @param path    path to picture
+	 * @param panel
+	 * @param start_x
+	 * @param start_y
+	 * @param x
+	 * @param y
+	 */
 	public static void createBackround(JLabel label, String path, JPanel panel, int start_x, int start_y, int x,
 			int y) {
 
@@ -47,11 +74,34 @@ public class GenerateFrameService {
 		panel.add(label);
 	}
 
+	/**
+	 * create label
+	 * 
+	 * @param label
+	 * @param panel
+	 * @param startX
+	 * @param startY
+	 * @param x
+	 * @param y
+	 */
 	public static void createLabel(JLabel label, JPanel panel, int startX, int startY, int x, int y) {
 		label.setBounds(startX, startY, x, y);
 		panel.add(label);
 	}
 
+	/**
+	 * create button
+	 * 
+	 * @param buttonName
+	 * @param x
+	 * @param y
+	 * @param wigth
+	 * @param hight
+	 * @param command        commend for button
+	 * @param panel
+	 * @param actionListener action listener for button
+	 * @return
+	 */
 	public static JButton createButton(String buttonName, int x, int y, int wigth, int hight, String command,
 			JPanel panel, ActionListener actionListener) {
 		JButton playButton = new JButton();

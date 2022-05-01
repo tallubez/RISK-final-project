@@ -10,6 +10,13 @@ public class Reinforcement {
 	public Reinforcement() {
 	}
 
+	/**
+	 * calc the reinforcement amout
+	 * 
+	 * @param currentPlayer
+	 * @param ui
+	 * @return the amount of reinforcement
+	 */
 	public static int CalcReinforcement(Player currentPlayer, UI ui) {
 		int total;
 		total = currentPlayer.amount_controling / 3;
@@ -24,6 +31,12 @@ public class Reinforcement {
 		return total;
 	}
 
+	/**
+	 * position the reinforcement
+	 * 
+	 * @param p  player
+	 * @param ui
+	 */
 	public static void PositionReinforcementUnits(Player p, UI ui) {
 		int unitAmout = CalcReinforcement(p, ui);
 		JActions.PositionUnits(p, ui, unitAmout);

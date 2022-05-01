@@ -41,6 +41,13 @@ public class ColorsMatch {
 		return false;
 	}
 
+	/**
+	 * get the closest color
+	 * 
+	 * @param c color
+	 * @param d distance
+	 * @return closest color
+	 */
 	public Color getCloseColor(Color c, int d) {
 		double distance, r, g, b;
 		for (Color color : colorToTerritoryMap.keySet()) {
@@ -58,6 +65,13 @@ public class ColorsMatch {
 		return null;
 	}
 
+	/**
+	 * get the color at specific pixel
+	 * 
+	 * @param panel panel looking in
+	 * @param p     point
+	 * @return rgb
+	 */
 	public static int getColorAt(JPanel panel, Point p) {
 		BufferedImage img = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = img.createGraphics();
