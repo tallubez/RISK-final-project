@@ -3,9 +3,7 @@ package Utils;
 import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
 import javax.swing.JList;
 
 import board.Territory;
@@ -13,13 +11,13 @@ import board.Territory;
 public class SideList extends JList<Territory> {
 
 	public int leangth;
-	public DefaultListCellRenderer defau;
+	MyCallRender renderer;
 
-	public SideList(DefaultListModel<Territory> defaultListModel) 
-{
+	public SideList(DefaultListModel<Territory> defaultListModel) {
 		super(defaultListModel);
 		leangth = 0;
-		defau=new DefaultListCellRenderer();
+		renderer = new MyCallRender();
+		this.setCellRenderer(renderer);
 	}
 
 	public void add(Territory t) {
@@ -28,11 +26,10 @@ public class SideList extends JList<Territory> {
 		this.setModel(listModel);
 		Object value = null;
 		t.setIndex(leangth);
-		Component renderer =  defau.getListCellRendererComponent(this, value, leangth,
-		        false, false);
-		//renderer.set(Color.BLACK);
-	    renderer.setEnabled(this.isEnabled());
-        renderer.setFont(this.getFont());
+		Component c = renderer.getListCellRendererComponent(this, value, leangth, false, false);
+		c.setForeground(Color.red);
+		c.setEnabled(this.isEnabled());
+		c.setFont(this.getFont());
 		leangth++;
 	}
 

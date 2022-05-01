@@ -104,12 +104,19 @@ public class PlayTurn implements ActionListener {
 
 	public void cpuTurn() {
 		Player cpu = ui.getPlayer(2);
+		if(turnAmount[1] == 0) {
+			turnAmount[1]++;
+			JOptionPane.showMessageDialog(null, "computer turn");
+		}
+		else {
 		int reinforcementAmount = Reinforcement.CalcReinforcement(cpu, ui);
 		JOptionPane.showMessageDialog(null, "computer turn, got reinforcement of " + reinforcementAmount);
+		
 		HashMap<Territory, Double> territoryMap = PositionTroops.PositionUnits(ui, cpu, reinforcementAmount);
 		for (Territory t : territoryMap.keySet()) {
 			t.addUnits(territoryMap.get(t));
 			cpu.getTerritoryList().updateText(t);
+			}
 		}
 		cpuAttackTerritory();
 	}
@@ -169,6 +176,10 @@ public class PlayTurn implements ActionListener {
 					"who to attack", JOptionPane.PLAIN_MESSAGE, null, possibilities.toArray(), "hey");
 
 			Player deffender;
+			if(defTerritory==null) {
+				JOptionPane.showMessageDialog(null,"you need to select territory to attack if you want to attack...");
+			}
+			else {
 			if (currentPlayerNum == 1) {
 				deffender = ui.getPlayer(2);
 			} else {
@@ -187,7 +198,7 @@ public class PlayTurn implements ActionListener {
 			}
 			AttackTerritory aTerritory = new AttackTerritory(ui);
 			aTerritory.Attack(attacker, deffender, attUnits, defUnits, attTerritory, defTerritory);
-
+			}
 		}
 	}
 

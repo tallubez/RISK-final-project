@@ -31,7 +31,6 @@ public class Attack {
 
 	public static double GetTotalAttackScore(UI ui, Player cpu, Territory t) {
 		double conqRes = calcConquerOdds(GetEnemyBordering(t, null), t.getUnitAmount());
-		double UnitsMoves;
 		if (conqRes < 0) {
 			return 0;
 		}

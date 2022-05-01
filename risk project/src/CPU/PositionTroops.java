@@ -16,62 +16,7 @@ public class PositionTroops {
 	public static HashMap<Territory, Double> PositionUnits(UI ui, Player cpu, double amount) {
 		double def = Math.floor(amount / 2), off = amount - def;
 		HashMap<Territory, Double> territroyMap = DefensivePosition(ui, cpu, amount);
-		// territroyMap = OffensivePosition(ui, off, territroyMap);
 		return territroyMap;
-	}
-
-	public static HashMap<Territory, Double> OffensivePosition(UI ui, double amount,
-			HashMap<Territory, Double> territoryMap) {
-		HashMap<Territory, Double> opponetTerritoryMap = new HashMap<>();
-		double sum = 0;
-		double temp;
-		double left = amount;
-		Player opp = ui.getPlayer(1);
-		for (Territory t : opp.territories_controling) {
-			sum = CalcTerritoryImportanceOffensive(ui, opp, t, opponetTerritoryMap, sum);
-		}
-		for (Territory t : opp.territories_controling) {
-			temp = Math.floor((opponetTerritoryMap.get(t) / sum) * amount);
-			opponetTerritoryMap.remove(t);
-			opponetTerritoryMap.put(t, temp);
-			left -= temp;
-		}
-		while (left > 0) {
-			for (Territory t : opp.territories_controling) {
-				if (left > 0) {
-					temp = opponetTerritoryMap.get(t);
-					opponetTerritoryMap.remove(t);
-					opponetTerritoryMap.put(t, temp + 1);
-					left--;
-				}
-			}
-		}
-		for (Territory t : opp.territories_controling) {
-			left = opponetTerritoryMap.get(t);
-			while (left > 0) {
-				for (Territory cpuTerritory : t.borderingTerritories) {
-					if (left > 0 && cpuTerritory.getPlayer_controling() == 2) {
-						temp = territoryMap.get(t);
-						territoryMap.remove(t);
-						territoryMap.put(t, temp + 1);
-						left--;
-					}
-
-				}
-
-			}
-
-		}
-
-		return territoryMap;
-	}
-
-	public static double CalcTerritoryImportanceOffensive(UI ui, Player cpu, Territory territory,
-			HashMap<Territory, Double> territoryMap, double sum) {
-		double value = Attack.GetTotalAttackScore(ui, cpu, territory);
-		territoryMap.put(territory, value);
-		sum += value;
-		return sum;
 	}
 
 	public static HashMap<Territory, Double> DefensivePosition(UI ui, Player cpu, double amount) {
@@ -116,7 +61,7 @@ public class PositionTroops {
 			grade = grade * (CalcValueLost(ui, cpu, territory) + CalcValueNow(ui, cpu, territory));
 			sum += grade;
 		}
-		if(territoryMap!=null) {
+		if (territoryMap != null) {
 			territoryMap.put(territory, grade);
 		}
 		return sum;
