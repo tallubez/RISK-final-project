@@ -94,17 +94,16 @@ public class Attack {
 
 	public static double HowHardWillItBeToKeep(UI ui, Territory t, Player cpu) {
 		double howHardToKeep;
-		double enemyUnitsBordering =0;
+		double enemyUnitsBordering = 0;
 		for (Territory temp : t.borderingTerritories) {
 			if (temp.getPlayer_controling() != cpu.getPlayerNum()) {
-				 enemyUnitsBordering += (temp.getUnitAmount() - 1);
+				enemyUnitsBordering += (temp.getUnitAmount() - 1);
 			}
 		}
-		howHardToKeep = enemyUnitsBordering/5;
+		howHardToKeep = enemyUnitsBordering / 5;
 		return howHardToKeep;
 
 	}
-
 
 	public static int GetEnemyBordering(Territory t, Territory notToInclude) {
 		int enemyUnitsBordering = 0;
@@ -176,9 +175,11 @@ public class Attack {
 		Territory selected = null;
 		double max = 1;
 		for (Territory t : attacked.borderingTerritories) {
-			if (t.getUnitAmount() > max) {
-				selected = t;
-				max = t.getUnitAmount();
+			if (t.getPlayer_controling() == cpu.getPlayerNum()) {
+				if (t.getUnitAmount() > max) {
+					selected = t;
+					max = t.getUnitAmount();
+				}
 			}
 		}
 		return selected;

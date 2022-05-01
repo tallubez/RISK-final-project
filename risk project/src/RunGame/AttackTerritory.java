@@ -100,7 +100,7 @@ public class AttackTerritory implements ActionListener {
 		String attOutput = "attacker result: ", defOutput = "deffender result: ";
 		Collections.sort(attRes, Collections.reverseOrder());
 		Collections.sort(defRes, Collections.reverseOrder());
-		for (int i = 0; i < defUnits; i++) {
+		for (int i = 0; i < Math.min(defUnits, attUnits); i++) {
 			if (attRes.get(i) > defRes.get(i)) {
 				lost[1]++;
 			} else {
@@ -135,10 +135,6 @@ public class AttackTerritory implements ActionListener {
 		}
 
 		JOptionPane.showMessageDialog(null, "attack finished");
-		if (attacker.getAmount_controling() == ui.worldMap.getTerritoryAmount()) {
-			JOptionPane.showMessageDialog(null, attacker.getPlayerNum() + " won the game, Thank You");
-			ui.gameWindow.dispose();
-		}
 		attackWindow.dispose();
 		if (ui.VScomputer) {
 			ui.pTurn.cpuAttackTerritory();
@@ -147,6 +143,10 @@ public class AttackTerritory implements ActionListener {
 	}
 
 	public void TerritoryWon(int attackingUnits) {
+		if (deffender.getAmount_controling() == 1) {
+			JOptionPane.showMessageDialog(null, attacker.getPlayerNum() + " won the game, Thank You");
+			ui.gameWindow.dispose();
+		}
 		defTerritory.getContinent().TerrConquered(attacker.getPlayerNum());
 		deffender.removeTerritory(defTerritory);
 		attacker.addTerritory(defTerritory);

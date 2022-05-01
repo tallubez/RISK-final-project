@@ -14,7 +14,7 @@ public class PositionTroops {
 	}
 
 	public static HashMap<Territory, Double> PositionUnits(UI ui, Player cpu, double amount) {
-		double def = Math.floor(amount / 2), off = amount - def;
+		double def = Math.floor(amount / 2);
 		HashMap<Territory, Double> territroyMap = DefensivePosition(ui, cpu, amount);
 		return territroyMap;
 	}
@@ -25,10 +25,13 @@ public class PositionTroops {
 		double temp;
 		double left = amount;
 		for (Territory t : cpu.territories_controling) {
-			sum = CalcTerritoryImportanceDefensive(ui, cpu, t, territroyMap, sum);
+			sum += CalcTerritoryImportanceDefensive(ui, cpu, t, territroyMap);
 		}
 		for (Territory t : cpu.territories_controling) {
 			temp = Math.floor((territroyMap.get(t) / sum) * amount);
+			if (temp < 0) {
+				temp = 0;
+			}
 			territroyMap.remove(t);
 			territroyMap.put(t, temp);
 			left -= temp;
@@ -47,7 +50,7 @@ public class PositionTroops {
 	}
 
 	public static double CalcTerritoryImportanceDefensive(UI ui, Player cpu, Territory territory,
-			HashMap<Territory, Double> territoryMap, double sum) {
+			HashMap<Territory, Double> territoryMap) {
 		double amountInTerritory = territory.getUnitAmount();
 		double enemyAmount = 0;
 		double grade;
@@ -59,12 +62,12 @@ public class PositionTroops {
 		grade = enemyAmount / amountInTerritory;
 		if (grade > 0) {
 			grade = grade * (CalcValueLost(ui, cpu, territory) + CalcValueNow(ui, cpu, territory));
-			sum += grade;
+
 		}
 		if (territoryMap != null) {
 			territoryMap.put(territory, grade);
 		}
-		return sum;
+		return grade;
 	}
 
 	public static double CalcValueNow(UI ui, Player cpu, Territory territory) {

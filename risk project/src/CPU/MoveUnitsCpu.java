@@ -22,11 +22,11 @@ public class MoveUnitsCpu {
 		if (maxMovement == 0) {
 			return 0;
 		}
-		double orgValue = PositionTroops.CalcTerritoryImportanceDefensive(ui, ui.getPlayer(2), org, null, 0);
+		double orgValue = PositionTroops.CalcTerritoryImportanceDefensive(ui, ui.getPlayer(2), org, null);
 		if (orgValue == 0) {
 			return maxMovement;
 		}
-		double destValue = PositionTroops.CalcTerritoryImportanceDefensive(ui, ui.getPlayer(2), dest, null, 0);
+		double destValue = PositionTroops.CalcTerritoryImportanceDefensive(ui, ui.getPlayer(2), dest, null);
 		if (destValue == 0) {
 			return 0;
 		}
@@ -38,7 +38,8 @@ public class MoveUnitsCpu {
 		if (destOptimizeUnits <= dest.getUnitAmount()) {
 			return 0;
 		}
-		return Math.min(maxMovement, destOptimizeUnits - dest.getUnitAmount());
+		double neededMovemnet = destOptimizeUnits - dest.getUnitAmount();
+		return Math.min(maxMovement, neededMovemnet);
 	}
 
 	public static void moveEndOfTurn(UI ui, Player cpu) {

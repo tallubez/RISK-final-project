@@ -1,8 +1,5 @@
 package Utils;
 
-import java.awt.Color;
-import java.awt.Component;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -11,12 +8,12 @@ import board.Territory;
 public class SideList extends JList<Territory> {
 
 	public int leangth;
-	MyCallRender renderer;
+	ColorRenderer renderer;
 
 	public SideList(DefaultListModel<Territory> defaultListModel) {
 		super(defaultListModel);
 		leangth = 0;
-		renderer = new MyCallRender();
+		renderer = new ColorRenderer();
 		this.setCellRenderer(renderer);
 	}
 
@@ -24,12 +21,7 @@ public class SideList extends JList<Territory> {
 		DefaultListModel<Territory> listModel = (DefaultListModel<Territory>) this.getModel();
 		listModel.addElement(t);
 		this.setModel(listModel);
-		Object value = null;
 		t.setIndex(leangth);
-		Component c = renderer.getListCellRendererComponent(this, value, leangth, false, false);
-		c.setForeground(Color.red);
-		c.setEnabled(this.isEnabled());
-		c.setFont(this.getFont());
 		leangth++;
 	}
 
