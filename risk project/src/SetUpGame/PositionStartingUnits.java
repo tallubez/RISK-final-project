@@ -32,12 +32,14 @@ public class PositionStartingUnits {
 
 	}
 
+//set all the territory units to 1
 	public void SetUnitsTo1(Player p) {
 		for (Territory t : p.territories_controling) {
 			t.setUnitAmount(1);
 		}
 	}
 
+//position the starting to the player p
 	public void PositionStratingUnits(Player p) {
 		int remainig_units = 40 - p.getAmount_controling();
 		JActions.PositionUnits(p, ui, remainig_units);

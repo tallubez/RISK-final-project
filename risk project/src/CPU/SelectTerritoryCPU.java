@@ -6,7 +6,13 @@ import main.Player;
 import main.UI;
 
 public class SelectTerritoryCPU {
-
+	/**
+	 * decide what territory to select
+	 * 
+	 * @param ui
+	 * @param cpu
+	 * @return
+	 */
 	public static Territory SelectTerritory(UI ui, Player cpu) {
 		Territory selectedTerritory = null;
 		double maxValue = 0;
@@ -21,6 +27,13 @@ public class SelectTerritoryCPU {
 		return selectedTerritory;
 	}
 
+	/**
+	 * calc territory value
+	 * 
+	 * @param ui
+	 * @param t
+	 * @return value
+	 */
 	public static double GetTerritoryValue(UI ui, Territory t) {
 		Continent continent = t.getContinent();
 		double terEmpty = 1;

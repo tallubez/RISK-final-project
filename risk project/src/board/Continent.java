@@ -38,6 +38,11 @@ public class Continent {
 		return name;
 	}
 
+	/**
+	 * manage when a player select territory in continent
+	 * 
+	 * @param playerNum the number of the player
+	 */
 	public void TerrChosen(int playerNum) {
 		TerritorysControlledByPlayer[playerNum - 1]++;
 		if (TerritorysControlledByPlayer[playerNum - 1] == size) {
@@ -45,6 +50,11 @@ public class Continent {
 		}
 	}
 
+	/*
+	 * manage when a player conquer territory in continent
+	 * 
+	 * @param playerNum the number of the player
+	 */
 	public void TerrConquered(int playerNum) {
 		TerritorysControlledByPlayer[playerNum - 1]++;
 		TerritorysControlledByPlayer[playerNum % 2]--;

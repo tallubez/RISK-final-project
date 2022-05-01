@@ -88,6 +88,11 @@ public class Territory {
 		return continent;
 	}
 
+	/**
+	 * set a border between t and this
+	 * 
+	 * @param t territory to border
+	 */
 	public void addBorder(Territory t) {
 		borderingTerritories.add(t);
 	}

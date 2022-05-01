@@ -22,7 +22,7 @@ public class ColorRenderer extends JLabel implements ListCellRenderer {
 		Territory t = (Territory) value;
 		Color c = new Color(t.getRGB());
 		this.setText(t.toString());
-		this.setForeground(c);
+		this.setForeground(c.darker());
 		this.setBackground(Color.white);
 		return this;
 	}

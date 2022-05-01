@@ -47,6 +47,7 @@ public class AttackTerritory implements ActionListener {
 		defRes = new ArrayList<>();
 	}
 
+//generate the attack between 2 territory
 	public void Attack(Player attacker, Player defender, int attUnits, int defUnits, Territory attTerritory,
 			Territory defTerritory) {
 		this.attUnits = attUnits;
@@ -60,6 +61,7 @@ public class AttackTerritory implements ActionListener {
 		defLabel.setText("deffender amount of unit: " + defUnits);
 	}
 
+//init the attack window
 	public void InitAttackWindow() {
 		attackWindow = new JFrame();
 		attackPanel = new JPanel();
@@ -82,6 +84,7 @@ public class AttackTerritory implements ActionListener {
 
 	}
 
+//roll the dice
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Random rn = new Random();
@@ -96,6 +99,7 @@ public class AttackTerritory implements ActionListener {
 
 	}
 
+//set the result of the attack
 	public void SetLoses() {
 		String attOutput = "attacker result: ", defOutput = "deffender result: ";
 		Collections.sort(attRes, Collections.reverseOrder());
@@ -142,10 +146,13 @@ public class AttackTerritory implements ActionListener {
 
 	}
 
+//manage when a territory is won
 	public void TerritoryWon(int attackingUnits) {
 		if (deffender.getAmount_controling() == 1) {
+			// game finished
 			JOptionPane.showMessageDialog(null, attacker.getPlayerNum() + " won the game, Thank You");
 			ui.gameWindow.dispose();
+			attackWindow.dispose();
 		}
 		defTerritory.getContinent().TerrConquered(attacker.getPlayerNum());
 		deffender.removeTerritory(defTerritory);
@@ -153,9 +160,6 @@ public class AttackTerritory implements ActionListener {
 		defTerritory.setUnitAmount(attackingUnits);
 		attTerritory.subUnits(attackingUnits);
 		defTerritory.setPlayer_controling(attacker.getPlayerNum());
-		if (attacker.getAmount_controling() == 41) {
-			// finished
-		}
 		String temp;
 		int remUnits = attTerritory.getUnitAmount() - 1;
 		if (remUnits > 0) {

@@ -36,6 +36,7 @@ public class CreateMapBackround {
 		createSideLabels();
 	}
 
+//creates the map background
 	public void createMapBackround() {
 		ui.startMenu.panel.setVisible(false);
 		panel = new JPanel();
@@ -57,6 +58,7 @@ public class CreateMapBackround {
 
 	}
 
+//creates the side lists
 	public void createSideLabels() {
 		DefaultListModel<Territory> listModel1 = new DefaultListModel<>();
 		rightlist = new SideList(listModel1);

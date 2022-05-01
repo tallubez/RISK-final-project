@@ -15,6 +15,14 @@ public class MoveUnitsCpu {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * manage movement after conquering for ai player
+	 * 
+	 * @param ui
+	 * @param org  origin territory
+	 * @param dest destination territory
+	 * @return how much to move;
+	 */
 	public static double MoveAfterConq(UI ui, Territory org, Territory dest) {
 		double orgOptimizeUnits, destOptimizeUnits;
 		double maxMovement = org.getUnitAmount() - 1;
@@ -42,6 +50,12 @@ public class MoveUnitsCpu {
 		return Math.min(maxMovement, neededMovemnet);
 	}
 
+	/**
+	 * select from where and how much to move at the end of turn
+	 * 
+	 * @param ui
+	 * @param cpu
+	 */
 	public static void moveEndOfTurn(UI ui, Player cpu) {
 		Territory dest = null, org = null;
 		double maxMovement = 0, temp;

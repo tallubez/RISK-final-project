@@ -29,12 +29,22 @@ public class Player {
 		this.amount_controling = amount_controling;
 	}
 
+	/**
+	 * add territory to player
+	 * 
+	 * @param t territory to add
+	 */
 	public void addTerritory(Territory t) {
 		territories_controling.add(t);
 		territoryList.add(t);
 		amount_controling++;
 	}
 
+	/**
+	 * remove territory from player
+	 * 
+	 * @param t territory to remove
+	 */
 	public void removeTerritory(Territory t) {
 		territoryList.remove(t.index);
 		territories_controling.remove(t);

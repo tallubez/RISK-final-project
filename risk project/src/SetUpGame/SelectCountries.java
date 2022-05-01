@@ -53,6 +53,7 @@ public class SelectCountries implements ActionListener {
 		devideTerritory();
 	}
 
+//init the map background
 	public void InitBackround() {
 		cMapBackround = new CreateMapBackround(ui);
 		this.label = cMapBackround.label;
@@ -140,6 +141,7 @@ public class SelectCountries implements ActionListener {
 		currPlayer.addTerritory(temp);
 	}
 
+//randomize the territory each player is controlling
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Player currentPlayer;
@@ -171,12 +173,14 @@ public class SelectCountries implements ActionListener {
 
 	}
 
+//start the turns
 	public void cont() {
 		panel.removeMouseListener(ui.mouseAdapter);
 		lowerLabel.setText("selected all");
 		ui.PositionStartUnits();
 	}
 
+//ai player chose territory
 	public void CPUChoseTerr() {
 		Territory chosen = SelectTerritoryCPU.SelectTerritory(ui, ui.getPlayer(2));
 		selected++;

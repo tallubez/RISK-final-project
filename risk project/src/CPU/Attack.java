@@ -12,6 +12,13 @@ public class Attack {
 	public Attack() {
 	}
 
+	/**
+	 * ai decide who to attack
+	 * 
+	 * @param ui
+	 * @param cpu ai player
+	 * @return territory selected
+	 */
 	public static Territory DecideWhoToAttack(UI ui, Player cpu) {
 		Territory selectedTerritory = null;
 		double maxValue = 0;
@@ -29,6 +36,14 @@ public class Attack {
 
 	}
 
+	/**
+	 * calc the attack score of territory
+	 * 
+	 * @param ui
+	 * @param cpu ai player
+	 * @param t   territory
+	 * @return double the score
+	 */
 	public static double GetTotalAttackScore(UI ui, Player cpu, Territory t) {
 		double conqRes = calcConquerOdds(GetEnemyBordering(t, null), t.getUnitAmount());
 		if (conqRes < 0) {
@@ -40,6 +55,14 @@ public class Attack {
 		return value;
 
 	}
+
+	/**
+	 * calc the avg conquer outcome
+	 * 
+	 * @param att attacking units
+	 * @param def defending units
+	 * @return units reaming after conquer
+	 */
 
 	public static double calcConquerOdds(double att, double def) {
 		double[] result;
@@ -57,6 +80,14 @@ public class Attack {
 		return att - def;
 	}
 
+	/**
+	 * calc the value of conquering
+	 * 
+	 * @param ui
+	 * @param t   territory to calc
+	 * @param cpu
+	 * @return the value
+	 */
 	public static double valueOfconquer(UI ui, Territory t, Player cpu) {
 		Continent c = t.getContinent();
 		// does it help player conquer continent?
@@ -92,6 +123,14 @@ public class Attack {
 		return totalValue;
 	}
 
+	/**
+	 * calc how hard will it be to keep after
+	 * 
+	 * @param ui
+	 * @param t
+	 * @param cpu
+	 * @return value of difficult
+	 */
 	public static double HowHardWillItBeToKeep(UI ui, Territory t, Player cpu) {
 		double howHardToKeep;
 		double enemyUnitsBordering = 0;
@@ -105,6 +144,13 @@ public class Attack {
 
 	}
 
+	/**
+	 * get amount of enemy units bordering a territory
+	 * 
+	 * @param t            territory to check
+	 * @param notToInclude territory not to include
+	 * @return amount
+	 */
 	public static int GetEnemyBordering(Territory t, Territory notToInclude) {
 		int enemyUnitsBordering = 0;
 		int playerNum = t.getPlayer_controling();
@@ -119,6 +165,14 @@ public class Attack {
 		return enemyUnitsBordering;
 	}
 
+	/**
+	 * get the average loses of attack
+	 * 
+	 * @param att attacking units
+	 * @param def defending units
+	 * @return double[] value, in value[0] attacker lost and in value[1] defender
+	 *         lost
+	 */
 	public static double[] calcAttackOdds(int att, int def) {
 		// get in value[0] attacker lost and in value[1] defender lost
 		if (def > 2) {
@@ -171,6 +225,14 @@ public class Attack {
 		return value;
 	}
 
+	/**
+	 * select territory to attack from
+	 * 
+	 * @param ui
+	 * @param cpu
+	 * @param attacked
+	 * @return selected territory
+	 */
 	public static Territory AttackOrigin(UI ui, Player cpu, Territory attacked) {
 		Territory selected = null;
 		double max = 1;

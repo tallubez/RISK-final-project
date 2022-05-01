@@ -16,6 +16,11 @@ public class StartMenu implements ActionListener {
 	public JLabel label;
 	public UI ui;
 
+	/**
+	 * create the start menu
+	 * 
+	 * @param ui
+	 */
 	public StartMenu(UI ui) {
 		this.ui = ui;
 		this.gameWindow = ui.gameWindow;
@@ -31,6 +36,9 @@ public class StartMenu implements ActionListener {
 
 	}
 
+	/**
+	 * start the game
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "cpu") {

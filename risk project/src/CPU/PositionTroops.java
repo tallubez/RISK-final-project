@@ -14,11 +14,19 @@ public class PositionTroops {
 	}
 
 	public static HashMap<Territory, Double> PositionUnits(UI ui, Player cpu, double amount) {
-		double def = Math.floor(amount / 2);
 		HashMap<Territory, Double> territroyMap = DefensivePosition(ui, cpu, amount);
 		return territroyMap;
 	}
 
+	/**
+	 * set the position of units
+	 * 
+	 * @param ui
+	 * @param cpu
+	 * @param amount amount of units
+	 * @return hash map with territory as key and the amount if units that should go
+	 *         there as value
+	 */
 	public static HashMap<Territory, Double> DefensivePosition(UI ui, Player cpu, double amount) {
 		HashMap<Territory, Double> territroyMap = new HashMap<>();
 		double sum = 0;
@@ -49,6 +57,15 @@ public class PositionTroops {
 		return territroyMap;
 	}
 
+	/**
+	 * calc how important is to add defending units to territory
+	 * 
+	 * @param ui
+	 * @param cpu
+	 * @param territory
+	 * @param territoryMap hash map to put the outcome in
+	 * @return importance
+	 */
 	public static double CalcTerritoryImportanceDefensive(UI ui, Player cpu, Territory territory,
 			HashMap<Territory, Double> territoryMap) {
 		double amountInTerritory = territory.getUnitAmount();
